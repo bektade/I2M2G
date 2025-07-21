@@ -1,17 +1,10 @@
-# Itron2Mqtt2Grafana
-
-## What this repo does:
-
-- Builds on the top of iton2mqtt
-- Receives messages from Simulated Meter
-- Telegraph listens to incoming messages over a topic & writes to InfluxDB
-- Grafana connects to influxDB to visualize data
+# MQTT2Grafana
 
 ## Setup
 
 ### 1. Setup Environment
 
-First, set up your environment variables securely:
+First, set up your environment variables :
 
 ```bash
 ./mqtt2grafana/scripts/setup_env.sh

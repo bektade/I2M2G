@@ -6,6 +6,8 @@ I2M2G stands for Itron to MTT to Grafana, which provides a complete solution for
 
   - Is an extension of [xcel_2iron2mqtt](https://github.com/zaknye/xcel_itron2mqtt) i.e. adding more components such as Telegraph listener to send mqtt messages into InfluxDB and then visualizes the data in real-time (updates every 5 sec) using Grafana.
 
+  - Read [setup gude](/mqtt2grafana/README.md) for mqtt2grafana.
+
 - **simulatedMeter2Mqtt/**:
 
   - gets realistic simulated data from energy launchpad's MeterAgentSimulato and publishes it into mqtt.
@@ -19,3 +21,11 @@ I2M2G stands for Itron to MTT to Grafana, which provides a complete solution for
   - If you are using real meter [read setup guide.](/realMeter2mqtt/README.RealMeter.md)
 
 ---
+
+### **Data Flow**
+
+1. **Meter** Data Source
+2. **MQTT Broker** receives and routes messages to subscribers
+3. **Telegraf** collects data from MQTT topics and sends to InfluxDB
+4. **InfluxDB** stores time-series data for historical analysis
+5. **Grafana** visualizes real-time and historical data

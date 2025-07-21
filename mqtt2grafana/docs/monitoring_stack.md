@@ -1,29 +1,5 @@
 # Xcel Energy Monitoring Stack
 
-## **Overview:**
-
-This monitoring stack provides a complete real-time energy monitoring solution using simulated Xcel smart meter data. The stack includes:
-
-- **MQTT Broker** (Mosquitto) - Message routing
-- **InfluxDB** - Time-series data storage
-- **Telegraf** - Data collection from MQTT
-- **Grafana** - Real-time visualization dashboard
-- **Simulated Meter** - Test data generator
-
-## **Architecture**
-
-```
-Simulated Meter → MQTT Broker → Telegraf → InfluxDB → Grafana
-```
-
-### **Data Flow**
-
-1. **Simulated Meter** generates realistic energy data every 5 seconds
-2. **MQTT Broker** receives and routes messages to subscribers
-3. **Telegraf** collects data from MQTT topics and sends to InfluxDB
-4. **InfluxDB** stores time-series data for historical analysis
-5. **Grafana** visualizes real-time and historical data
-
 ## **Quick Start**
 
 ### **1. Start the Monitoring Stack**
@@ -49,20 +25,6 @@ docker-compose ps
 # - grafana (dashboard)
 # - simulated_meter (test data)
 ```
-
-### **3. Access the Dashboard**
-
-- **Grafana**: http://localhost:3000
-
-  - Username: `admin`
-  - Password: `admin`
-  - Dashboard: "Xcel Energy Monitoring Dashboard"
-
-- **InfluxDB**: http://localhost:8086
-  - Username: `admin`
-  - Password: `adminpassword`
-  - Organization: `myorg`
-  - Bucket: `energy_data`
 
 ### **4. Test Data Generation**
 
