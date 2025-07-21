@@ -2765,3 +2765,11 @@
 1753121408: Client Telegraf-Consumer-qTMzU disconnected.
 1753121409: mosquitto version 2.0.21 terminating
 1753121409: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1753135523: mosquitto version 2.0.21 starting
+1753135523: Config loaded from /mosquitto/config/mosquitto.conf.
+1753135523: Opening ipv4 listen socket on port 1883.
+1753135523: Opening ipv6 listen socket on port 1883.
+1753135523: Opening websockets listen socket on port 9001.
+1753135523: mosquitto version 2.0.21 running
+1753135524: New connection from 192.168.16.5:49984 on port 1883.
+1753135524: New client connected from 192.168.16.5:49984 as Telegraf-Consumer-iR967 (p2, c1, k60).
