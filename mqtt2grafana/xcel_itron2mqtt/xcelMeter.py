@@ -67,14 +67,11 @@ class xcelMeter():
            wait=wait_exponential(multiplier=1, min=1, max=15),
            before_sleep=before_sleep_log(logger, logging.WARNING),
            reraise=True)
-    # method that sets up the meter object
-
-    def setup(self) -> None:
+    def setup(self) -> None: # This metgod initializes, or creates a meter object
         # XML Entries we're looking for within the endpoint
         hw_info_names = ['lFDI', 'swVer', 'mfID']
         # Endpoint of the meter used for HW info
         hw_info_url = '/sdev/sdi' # e.g. http://localhost:8082/sdev/sdi or http://<IP_ADDRESS>:8082/sdev/sdi
-
         # Query the meter to get some more details about it
         details_dict = self.get_hardware_details(hw_info_url, hw_info_names)
         self._mfid = details_dict['mfID']
