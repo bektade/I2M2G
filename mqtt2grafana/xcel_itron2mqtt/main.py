@@ -38,6 +38,11 @@ def look_for_creds() -> tuple:
     key = os.getenv('KEY_PATH')
     cert_path = Path('certs/.cert.pem')
     key_path = Path('certs/.key.pem')
+
+    # base_dir = Path(__file__).parent
+    # cert_path = base_dir / 'certs' / '.cert.pem'
+    # key_path = base_dir / 'certs' / '.key.pem'
+    
     if cert and key:
         return cert, key
     # If not, look in the local directory
@@ -79,6 +84,7 @@ if __name__ == '__main__':
         port_num = os.getenv('METER_PORT')
     else:
         ip_address, port_num = mDNS_search_for_meter()
+        # ip_address, port_num = "10.28.10.181", 8081
     creds = look_for_creds()
     meter = xcelMeter(INTEGRATION_NAME, ip_address, port_num, creds)
     meter.setup()
