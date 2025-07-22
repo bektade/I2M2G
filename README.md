@@ -111,11 +111,23 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
 
 ## Meter Simulator Setup (OPTION B)
 
+
 > When working with meterSimulator specify:
-> -  `host IP` which will be part of the simulated meter endpoint url.
+> - `host IP` which will be part of the simulated meter endpoint url.
 > - We `don't` need to specify IP address of smart meter and security certificates (LFDIs)
 
 Follow steo by step guide below:
+
+#### STEP-0: RUN ENERGY LAUNCHPAD CONTAINERIZED APPLICATION
+
+- The energy launchpad clinet has Smart meter simulator agent which generates data. 
+- Will be sending get request to this client and publish the response in MQTT topic. 
+
+
+**The end points are at:**
+```
+http://<host_IP>:8082/swagger/index.html
+```
 
 #### step-1: clone the repo and Configure environment
 
