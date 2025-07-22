@@ -69,7 +69,11 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
 #### Step-3: Build and Start Container 
 
   ```
+
+  
+
   # run container 
+  cd mqtt2grafana 
   docker compose --profile real_meter up --build
 
 
