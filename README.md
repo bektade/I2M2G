@@ -73,6 +73,8 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
   cd mqtt2grafana 
   docker compose --profile real_meter up --build
 
+  # see logs from xcel_itron2mqtt_I2M2G
+  docker logs -f xcel_itron2mqtt_I2M2G
 
   # tear down 
   docker compose down -vv
