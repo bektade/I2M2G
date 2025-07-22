@@ -28,66 +28,32 @@ I2M2G stands for Itron to MTT to Grafana, which provides a complete solution for
 4. **InfluxDB** stores time-series data for historical analysis
 5. **Grafana** visualizes real-time and historical data
 
-## Mqtt2Grafana Setup
 
-### 1. Setup Environment
+## Setup for  Real Meter ( OPTION A)
 
-First, set up your environment variables securely:
+> When working with real meter, need to the following:
+>- IP address of smart meter in .env file 
+>- SSL certificates (LFDIs) needs to be generated or copied. 
+
+Follow step by step guide below:
+
+#### step-0: Clone the repo and Setup Environment
+
+Setup the environment by running: 
 
 ```bash
 ./scripts/setup_env.sh
 ```
 
-> once .env is created paste InfluxDB's API key in it and use the configuration when connecting influx DB with Grafana.
+> once .env is created edit meter's IP address in it.  
 
-### 2. Docker Compose up /down
-
-```
-# show logs
-docker compose up
-
-# compose in background
-docker compose up -d
-
-
-
-# tear down
-docker compose down
-
-# tear down and delete volumes
-docker compose down -vv
-```
-
----
-
----
-
----
-
----
-
----
-
----
-
-# Setup Real Meter ( OPTION A)
-
-When working with real meter, need to the following:
-
-- IP address of smart meter
-- SSL certificates (LFDIs)
-
-Follow step by step guide below:
-
-#### step-1: Generate SSL Certificates
+#### step-1: Generate SSL Certificates or Copy existing keys
 
 
 ```bash
 # generate new SSL keys
 ./scripts/generate_keys.sh
 ```
-
-
 
 ```bash
 # Retrieve existing SSL Keys
@@ -106,7 +72,7 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
 
   > creates .env file inside mqtt2grafana dir
 
-#### Step-2: Build and Start Container 
+#### Step-3: Build and Start Container 
 
   ```
   # run container 
@@ -129,7 +95,7 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
   docker compose --profile real_meter up --build
   ```
 
-#### Step-3: InfluxDB
+#### Step-4: InfluxDB
 
 - Login into InfluxDB dashboard at http://localhost:8086
 - create an API token to link InfluxDB with Grafana. (Follow instruction [here](/mqtt2grafana/docs/api_token.md))
@@ -139,7 +105,7 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
 
   > **Note**: login username & passwords are in `.env`.
 
-#### Step-4: Grafana
+#### Step-5: Grafana
 
 - Login into Grafana dashboard at http://localhost:8086
 - connect grafana with InfluxDB follow [instructions](/mqtt2grafana/docs/connect_influxdb_2_grafana.md)
@@ -147,28 +113,17 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
 
 ---
 
----
 
----
 
----
+## Meter Simulator Setup (OPTION B)
 
----
-
----
-
-# Meter Simulator Setup (OPTION B)
-
-When working with meterSimulator, need to specify `host IP` which will be part of the simulated meter endpoint url.
-
-We don't need to specify:
-
-- IP address of smart meter
-- security certificates (LFDIs)
+> When working with meterSimulator specify:
+> -  `host IP` which will be part of the simulated meter endpoint url.
+> - We `don't` need to specify IP address of smart meter and security certificates (LFDIs)
 
 Follow steo by step guide below:
 
-#### step-1: Configure environment
+#### step-1: clone the repo and Configure environment
 
 - run `setup_env.sh` script
 
@@ -184,6 +139,9 @@ Follow steo by step guide below:
 - clone energy launchpad repo, cd to the repo and run `docker compose up`
 - Install python dependencies found in `Pipfile` and then,
 - run `main_simulated_pub.py`.
+
+
+> GETTING FROM SIMULATOR IS NOT DOCKERIZED. Simply run the python script. 
 
 #### Step-3: InfluxDB
 
