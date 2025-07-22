@@ -11,28 +11,37 @@ services:
       - ./mosquitto/config:/mosquitto/config
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log
+    networks:
+      - i2m2g_net
     command: mosquitto -c /mosquitto/config/mosquitto.conf
     restart: unless-stopped
 
   # Xcel Itron2MQTT Application (for when you have real meter access)
   xcel_itron2mqtt:
+    container_name: xcel_itron2mqtt_I2M2G
+    hostname: xcel_itron2mqtt_host_I2M2G
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: xcel_itron2mqtt
+
     depends_on:
       - mqtt
     volumes:
       - ./certs:/opt/xcel_itron2mqtt/certs
+    networks:
+      - i2m2g_net
     environment:
+      # MQTT configuration
       - MQTT_SERVER=${MQTT_SERVER}
       - MQTT_PORT=${MQTT_PORT}
       - MQTT_USER=${MQTT_USER}
       - MQTT_PASSWORD=${MQTT_PASSWORD}
+      # Meter configuration
       - METER_IP=${METER_IP}
       - METER_PORT=${METER_PORT}
       - CERT_PATH=${CERT_PATH}
       - KEY_PATH=${KEY_PATH}
+      # logging configuration
       - LOGLEVEL=${LOGLEVEL}
     env_file:
       - .env
@@ -56,6 +65,8 @@ services:
     volumes:
       - influxdb_data:/var/lib/influxdb2
       - influxdb_config:/etc/influxdb2
+    networks:
+      - i2m2g_net
     restart: unless-stopped
 
   # Telegraf for data collection from MQTT
@@ -72,6 +83,8 @@ services:
       - INFLUX_BUCKET=${INFLUXDB_INIT_BUCKET}
     volumes:
       - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    networks:
+      - i2m2g_net
     restart: unless-stopped
 
   # Grafana for visualization
@@ -86,12 +99,11 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
     volumes:
       - grafana_data:/var/lib/grafana
+    networks:
+      - i2m2g_net
     depends_on:
       - influxdb
     restart: unless-stopped
-
-
-
 
 
 volumes:
@@ -99,3 +111,7 @@ volumes:
   influxdb_config:
   grafana_data:
   certs: 
+  
+networks:
+  i2m2g_net:
+    driver: bridge
