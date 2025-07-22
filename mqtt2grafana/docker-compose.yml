@@ -111,7 +111,8 @@ volumes:
   influxdb_config:
   grafana_data:
   certs: 
-  
+
+# using this custom network to allow communication between services and  avoid container newtowk issues 
 networks:
   i2m2g_net:
     driver: bridge
