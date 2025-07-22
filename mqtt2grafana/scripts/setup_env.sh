@@ -91,7 +91,7 @@ echo ""
 echo "⚙️  APPLICATION CONFIGURATION"
 echo "----------------------------"
 prompt_secure "METER_PORT" "8081" "Meter communication port"
-prompt_secure "LOGLEVEL" "INFO" "Logging level (DEBUG, INFO, WARNING, ERROR)"
+prompt_secure "LOGLEVEL" "DEBUG" "Logging level (DEBUG, INFO, WARNING, ERROR)"
 
 echo ""
 echo "✅ ENVIRONMENT SETUP COMPLETE!"
