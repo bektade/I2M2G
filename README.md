@@ -37,17 +37,20 @@ I2M2G stands for Itron to MTT to Grafana, which provides a complete solution for
 
 Follow step by step guide below:
 
-#### step-0: Clone the repo and Setup Environment
+#### step-1: Clone the repo and Configure Environment
 
 Setup the environment by running: 
 
 ```bash
-./scripts/setup_env.sh
+./scripts/setup_env.sh 
+
+# or 
+./mqtt2grafana/scripts/setup_env.sh
 ```
 
 > once .env is created edit meter's IP address in it.  
 
-#### step-1: Generate SSL Certificates or Copy existing keys
+#### step-2: Generate SSL Certificates or Copy existing keys
 
 
 ```bash
@@ -62,15 +65,6 @@ Setup the environment by running:
 
 These keys will be saved in the local directory `certs/.cert.pem` and `certs/.key.pem`
 
-#### step-2: Configure environment
-
-- run `setup_env.sh` script
-
-  ```
-  ./mqtt2grafana/scripts/setup_env.sh
-  ```
-
-  > creates .env file inside mqtt2grafana dir
 
 #### Step-3: Build and Start Container 
 
