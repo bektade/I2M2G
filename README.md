@@ -106,7 +106,28 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
 
   > creates .env file inside mqtt2grafana dir
 
-#### Step-2: Setup data source [in progress]
+#### Step-2: Build and Start Container 
+
+  ```
+  # run container 
+  docker compose --profile real_meter up --build
+
+
+  # tear down 
+  docker compose down -vv
+
+
+  # clean up 
+  docker system prune
+  docker network prune
+  ```
+
+
+  Restart the Stack
+  ```
+  docker compose down -v
+  docker compose --profile real_meter up --build
+  ```
 
 #### Step-3: InfluxDB
 
