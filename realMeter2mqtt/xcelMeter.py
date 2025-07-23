@@ -53,8 +53,8 @@ class xcelMeter():
         self.url = f'https://{ip_address}:{port}'
 
         # Setup the MQTT server connection
-        self.mqtt_server_address = os.getenv('MQTT_SERVER')
-        self.mqtt_port = self.get_mqtt_port()
+        self.mqtt_server_address = "mqtt"
+        self.mqtt_port = 1883
         self.mqtt_client = self.setup_mqtt(self.mqtt_server_address, self.mqtt_port)
 
         # Create a new requests session based on the passed in ip address and port #
@@ -67,11 +67,11 @@ class xcelMeter():
            wait=wait_exponential(multiplier=1, min=1, max=15),
            before_sleep=before_sleep_log(logger, logging.WARNING),
            reraise=True)
-    def setup(self) -> None:
+    def setup(self) -> None: # This metgod initializes, or creates a meter object
         # XML Entries we're looking for within the endpoint
         hw_info_names = ['lFDI', 'swVer', 'mfID']
         # Endpoint of the meter used for HW info
-        hw_info_url = '/sdev/sdi'
+        hw_info_url = '/sdev/sdi' # e.g. http://localhost:8082/sdev/sdi or http://<IP_ADDRESS>:8082/sdev/sdi
         # Query the meter to get some more details about it
         details_dict = self.get_hardware_details(hw_info_url, hw_info_names)
         self._mfid = details_dict['mfID']
@@ -187,8 +187,8 @@ class xcelMeter():
                 logging.error("Failed to connect, return code %d\n", rc)
 
         # Check if a username/PW is setup for the MQTT connection
-        mqtt_username = os.getenv('MQTT_USER')
-        mqtt_password = os.getenv('MQTT_PASSWORD')
+        mqtt_username = "bekobro"
+        mqtt_password = "1234"
         # If no env variable was set, skip setting creds?
         client = mqtt.Client()
         if mqtt_username and mqtt_password:

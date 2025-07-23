@@ -13,16 +13,14 @@ logger = logging.getLogger(__name__)
 # Prefix that appears on all of the XML elements
 IEEE_PREFIX = '{urn:ieee:std:2030.5:ns}'
 
-
 class xcelEndpoint():
     """
     Class wrapper for all readings associated with the Xcel meter.
     Expects a request session that should be shared amongst the 
     instances.
     """
-
-    def __init__(self, session: requests.Session, mqtt_client: mqtt.Client,
-                 url: str, name: str, tags: list, device_info: dict):
+    def __init__(self, session: requests.Session, mqtt_client: mqtt.Client, 
+                    url: str, name: str, tags: list, device_info: dict):
         self.requests_session = session
         self.url = url
         self.name = name
@@ -30,8 +28,7 @@ class xcelEndpoint():
         self.client = mqtt_client
         self.device_info = device_info
 
-        self._mqtt_topic_prefix = os.getenv(
-            'MQTT_TOPIC_PREFIX', 'homeassistant/')
+        self._mqtt_topic_prefix = os.getenv('MQTT_TOPIC_PREFIX', 'homeassistant/')
         self._current_response = None
         self._mqtt_topic = None
         # Record all of the sensor state topics in an easy to lookup dict
@@ -52,7 +49,7 @@ class xcelEndpoint():
         Returns: str in XML format of the meter's response
         """
         x = self.requests_session.get(self.url, verify=False, timeout=15.0)
-
+    
         return x.text
 
     @staticmethod
@@ -80,14 +77,14 @@ class xcelEndpoint():
                 if root.find(f'.//{IEEE_PREFIX}{k}') is not None:
                     value = root.find(f'.//{IEEE_PREFIX}{k}').text
                     readings_dict[k] = value
-
+    
         return readings_dict
 
     def get_reading(self) -> dict:
         """
         Query the endpoint associated with the object instance and
         return the parsed XML response in the form of a dictionary
-
+        
         Returns: Dict in the form of {reading: value}
         """
         response = self.query_endpoint()
@@ -110,8 +107,7 @@ class xcelEndpoint():
         payload['name'] = f'{self.name} {sensor_name}'
         # Mouthful
         # Unique ID becomes the device name + class name + sensor name, all lower case, all underscores instead of spaces
-        payload['unique_id'] = f"{self.device_info['device']['name']}_{self.name}_{sensor_name}".lower(
-        ).replace(' ', '_')
+        payload['unique_id'] = f"{self.device_info['device']['name']}_{self.name}_{sensor_name}".lower().replace(' ', '_')
         payload.update(self.device_info)
         # MQTT Topics don't like spaces
         mqtt_topic = f'{self._mqtt_topic_prefix}{entity_type}/{mqtt_friendly_name}/{sensor_name}/config'
@@ -133,8 +129,7 @@ class xcelEndpoint():
                 for val_items in v:
                     name, details = val_items.popitem()
                     sensor_name = f'{k}{name}'
-                    mqtt_topic, payload = self.create_config(
-                        sensor_name, details)
+                    mqtt_topic, payload = self.create_config(sensor_name, details)
                     # Send MQTT payload
                     self.mqtt_publish(mqtt_topic, str(payload))
             else:
@@ -166,15 +161,15 @@ class xcelEndpoint():
     def mqtt_publish(self, topic: str, message: str, retain=False) -> int:
         """
         Publish the given message to the topic associated with the class
-
+       
         Returns: integer
         """
         result = [0]
-        # print(f"Sending to MQTT TOPIC:\t{topic}")
-        # print(f"Payload:\t\t{message}")
+        print(f"Sending to MQTT TOPIC:\t{topic}")
+        print(f"Payload:\t\t{message}")
         result = self.client.publish(topic, str(message), retain=retain)
-        # print('Error in sending MQTT payload')
-        # print(f"MQTT Send Result: \t\t{result}")
+        print('Error in sending MQTT payload')
+        print(f"MQTT Send Result: \t\t{result}")
         # Return status of the published message
         return result[0]
 
