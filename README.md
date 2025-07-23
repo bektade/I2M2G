@@ -35,9 +35,19 @@ I2M2G stands for Itron to MTT to Grafana, which provides a complete solution for
 >- IP address of smart meter in .env file 
 >- SSL certificates (LFDIs) needs to be generated or copied. 
 
-Follow step by step guide below:
+
+### Overview of the steps:
+1. clone the repo 
+2. create  `.env` file and copy paste contents from `env.template` and the add meter's IP address in `.env` file.
+3. Generate SSL keys or copy paste existing keys in `mqtt2grafana` directory 
+4. Docker compose up the container using `--profile real_meter`
+5. Login to InfluxDB dashboard and grafana at local host to connect them and create visuailazation in Grafana. 
+
+
+### Detailed step by step guide:
 
 #### step-1: Clone the repo and Configure Environment
+
 
 Setup the environment by running: 
 
@@ -51,6 +61,8 @@ Setup the environment by running:
 > once .env is created edit meter's IP address in it.  
 
 #### step-2: Generate SSL Certificates or Copy existing keys
+
+Place the keys in mqtt2grafana directorty. 
 
 
 ```bash
