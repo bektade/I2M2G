@@ -136,6 +136,9 @@ def publish_to_mqtt(value, sFDI):
             publish_msg = f"📤 Publishing {message}" if output_config[
                 'emoji'] else f"Publishing {message}"
             logger.info(publish_msg)
+        
+        logger.info(f"Publishing to topic: {topic} with message: {message}")
+        print(f"Publishing to topic: {topic} with message: {message}")  
 
         # Publish message
         result = client.publish(topic, message)
