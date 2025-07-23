@@ -38,7 +38,7 @@ I2M2G stands for Itron to MTT to Grafana, which provides a complete solution for
 
 ### Overview of the steps:
 1. clone the repo 
-2. create  `.env` file and copy paste contents from `env.template` and the add meter's IP address in `.env` file.
+2. create  `.env` file by running `./scripts/setup_env.sh` ; enter METER_IP address in the prompt and use default values for the rest.
 3. Generate SSL keys or copy paste existing keys in `mqtt2grafana` directory 
 4. Docker compose up the container using `--profile real_meter`
 5. Login to InfluxDB dashboard and grafana at local host to connect them and create visuailazation in Grafana. 

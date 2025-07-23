@@ -59,6 +59,19 @@ prompt_secure() {
     rm -f .env.bak
 }
 
+# Prompt for Meter IP
+echo ""
+echo "🔌 METER CONFIGURATION"
+echo "----------------------"
+prompt_secure "METER_IP" "192.168.1.100" "Meter IP address"
+
+echo ""
+echo "📡 MQTT CONFIGURATION"
+echo "---------------------"
+prompt_secure "MQTT_SERVER" "mqtt" "MQTT server hostname"
+prompt_secure "MQTT_PORT" "1883" "MQTT server port"
+echo "   Note: MQTT_USER and MQTT_PASSWORD are optional (leave empty for no auth)"
+
 # Prompt for InfluxDB credentials
 echo "🗄️  INFLUXDB CONFIGURATION"
 echo "---------------------------"
@@ -80,12 +93,7 @@ echo "------------------------"
 prompt_secure "GRAFANA_ADMIN_USER" "admin" "Grafana admin username"
 prompt_secure "GRAFANA_ADMIN_PASSWORD" "admin" "Grafana admin password"
 
-echo ""
-echo "📡 MQTT CONFIGURATION"
-echo "---------------------"
-prompt_secure "MQTT_SERVER" "mqtt" "MQTT server hostname"
-prompt_secure "MQTT_PORT" "1883" "MQTT server port"
-echo "   Note: MQTT_USER and MQTT_PASSWORD are optional (leave empty for no auth)"
+
 
 echo ""
 echo "⚙️  APPLICATION CONFIGURATION"
