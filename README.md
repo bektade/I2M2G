@@ -126,6 +126,18 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
 
 ## Meter Simulator Setup (OPTION B)
 
+#### Overview of steps to run with simulator:
+
+1. `docker compose up` energy launchpad and open it at `http://<host_IP>:8082/swagger/index.html`
+
+2. clone this repo and run `setup_env.sh` script
+
+3. Run `docker compose up` inside `mqtt2grafana`
+
+4. Install dependencies `Pipenv install` and run `python main_simulated_pub.py`
+
+5. Sign in to InfluxDB and Grafana.
+
 
 > When working with meterSimulator specify:
 > - `host IP` which will be part of the simulated meter endpoint url.
@@ -144,7 +156,7 @@ Follow steo by step guide below:
 http://<host_IP>:8082/swagger/index.html
 ```
 
-#### step-1: clone the repo and Configure environment
+#### step-1: clone this repo and Configure environment
 
 - run `setup_env.sh` script
 
