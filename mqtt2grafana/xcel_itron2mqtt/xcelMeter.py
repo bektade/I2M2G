@@ -215,9 +215,14 @@ class xcelMeter():
         """
         Sends a discovery payload to homeassistant for the new meter device
 
+        - sends device information ( a.k.a discovery payload) to a topic "homeassistant/device/energy/xcel_itron_5" 
+        
         Returns: None
         """
-        state_topic = f'homeassistant/device/energy/{self.name.replace(" ", "_").lower()}'
+
+        # {self.name.replace(" ", "_").lower() creates xcel_itron_5 from Xcel Itron 5 to make homeassistant/device/energy/xcel_itron_5
+        state_topic = f'homeassistant/device/energy/{self.name.replace(" ", "_").lower()}' 
+        logging.info(f"MQTT Discovery Topic being used: {state_topic}")  # <-- Added logging here
         config_dict = {
             "name": self.name,
             "device_class": "energy",
@@ -226,9 +231,23 @@ class xcelMeter():
             }
         config_dict.update(self.device_info)
         config_json = json.dumps(config_dict)
+        logging.debug(f"")
+        logging.debug(f"")
         logging.debug(f"Sending MQTT Discovery Payload")
+        logging.debug(f"")
+        logging.debug(f"")
         logging.debug(f"TOPIC: {state_topic}")
-        logging.debug(f"Config: {config_json}")
+        logging.debug(f"")
+        logging.debug(f"")
+        logging.debug(f"MESSAGE: {config_json}")
+        logging.debug(f"")
+        logging.debug(f"")
+        logging.info(f"Formatted JSON Structure of MEssage ( DEVICE INFO): {json.dumps(config_dict, indent=2)}")
+        logging.debug(f"")
+        logging.debug(f"")
+        logging.info(f"Publishing to topic: {state_topic}")  # <-- Log topic before publish
+
+        # JUST NEED TO CUSTOMIZE PUBLISH METHOD!
         self.mqtt_client.publish(state_topic, str(config_json))
 
     def run(self) -> None:
