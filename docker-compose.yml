@@ -1,0 +1,123 @@
+version: '3.8'
+
+services:
+  # MQTT Broker
+  mqtt:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mqtt2grafana/mosquitto/config:/mosquitto/config
+      - ./mqtt2grafana/mosquitto/data:/mosquitto/data
+      - ./mqtt2grafana/mosquitto/log:/mosquitto/log
+    networks:
+      - i2m2g_net
+    command: mosquitto -c /mosquitto/config/mosquitto.conf
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mosquitto_pub", "-h", "localhost", "-t", "test", "-m", "test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Meter2MQTT Service (Part 1: Query Service)
+  meter2mqtt:
+    build:
+      context: ./meter2mqtt
+      dockerfile: Dockerfile
+    container_name: meter2mqtt
+    hostname: meter2mqtt_host
+    depends_on:
+      mqtt:
+        condition: service_healthy
+    volumes:
+      - ./meter2mqtt/certs:/opt/meter2mqtt/certs
+      - ./meter2mqtt/configs:/opt/meter2mqtt/configs
+    networks:
+      - i2m2g_net
+    environment:
+      # Docker environment flag
+      - DOCKER_ENV=true
+      # MQTT configuration
+      - MQTT_SERVER=mqtt
+      - MQTT_PORT=1883
+      - MQTT_USER=${MQTT_USER:-}
+      - MQTT_PASSWORD=${MQTT_PASSWORD:-}
+      - MQTT_TOPIC_PREFIX=${MQTT_TOPIC_PREFIX:-xcel_itron_5/}
+      # Simulator configuration (no real meter IP or certificates needed)
+      - SIMULATOR_IP=10.195.251.91
+      - SIMULATOR_PORT=8082
+      # Logging configuration
+      - LOGLEVEL=${LOGLEVEL:-INFO}
+    restart: unless-stopped
+
+
+
+  # InfluxDB for time-series data storage 
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_INIT_USERNAME:-admin}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_INIT_PASSWORD:-adminpassword}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_INIT_ORG:-myorg}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_INIT_BUCKET:-power_usage}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_INIT_ADMIN_TOKEN:-super-secret-key}
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+      - influxdb_config:/etc/influxdb2
+    networks:
+      - i2m2g_net
+    restart: unless-stopped
+
+  # Telegraf for data collection from MQTT
+  telegraf:
+    image: telegraf:1.28
+    container_name: telegraf
+    depends_on:
+      - mqtt
+      - influxdb
+    environment:
+      - INFLUX_URL=http://influxdb:8086
+      - INFLUX_TOKEN=${INFLUXDB_INIT_ADMIN_TOKEN:-super-secret-key}
+      - INFLUX_ORG=${INFLUXDB_INIT_ORG:-myorg}
+      - INFLUX_BUCKET=${INFLUXDB_INIT_BUCKET:-power_usage}
+    volumes:
+      - ./mqtt2grafana/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    networks:
+      - i2m2g_net
+    restart: unless-stopped
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:10.2.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - i2m2g_net
+    depends_on:
+      - influxdb
+    restart: unless-stopped
+
+volumes:
+  influxdb_data:
+  influxdb_config:
+  grafana_data:
+
+# Using this custom network to allow communication between services and avoid container network issues 
+networks:
+  i2m2g_net:
+    driver: bridge 

@@ -1,0 +1,8 @@
+- Instantaneous Demand:
+    url: '/upt/0/mr/1/r'
+    tags:
+      value:
+        entity_type: sensor
+        device_class: power
+        unit_of_measurement: W
+          
