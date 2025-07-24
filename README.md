@@ -130,11 +130,11 @@ These keys will be saved in the local directory `certs/.cert.pem` and `certs/.ke
 
 1. `docker compose up` energy launchpad and open it at `http://<host_IP>:8082/swagger/index.html`
 
-2. clone this repo and run `setup_env.sh` script
+2. clone this repo and run `setup_env.sh` script to setup `mqtt2grafana`
 
-3. Run `docker compose up` inside `mqtt2grafana`
+3. cd to `mqtt2grafana` & Run `docker compose up` 
 
-4. Install dependencies `Pipenv install` and run `python main_simulated_pub.py`
+4. cd `simulatedMeter2mqtt` and Install dependencies `Pipenv install` and run `python main_simulated_pub.py`
 
 5. Sign in to InfluxDB and Grafana.
 
@@ -193,3 +193,7 @@ http://<host_IP>:8082/swagger/index.html
 - create visualization & customize it.
 
 ---
+
+```
+cd $(pipenv --venv)
+```
