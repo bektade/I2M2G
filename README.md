@@ -158,20 +158,26 @@ http://<host_IP>:8082/swagger/index.html
 
 #### step-1: clone this repo and Configure environment
 
-- run `setup_env.sh` script
+- run `setup_env.sh` script to setup `mqtt2grafana`
 
   ```
   ./mqtt2grafana/scripts/setup_env.sh
   ```
 
   > creates .env file inside mqtt2grafana dir
-
-#### Step-2: Setup data source `simulator2mqtt`
-
-- `simulator2mqtt` sends get request to meterSimulatorAgent in Energy Launchpad and publishes the response to MQTT topic. To make this work:
+#### Step-2: Start energy launchpad  
 - clone energy launchpad repo, cd to the repo and run `docker compose up`
+
+#### Step-3: Setup `simulator2mqtt` - gets data from launchpad and publishes it to `mqtt2grafana`
+- cd simulator2mqtt
 - Install python dependencies found in `Pipfile` and then,
 - run `main_simulated_pub.py`.
+
+  ```
+    # cd simulator2mqtt
+    # pipenv install -r requirements.txtx
+
+  ```
 
 
 > GETTING FROM SIMULATOR IS NOT DOCKERIZED. Simply run the python script. 
@@ -194,6 +200,10 @@ http://<host_IP>:8082/swagger/index.html
 
 ---
 
-```
-cd $(pipenv --venv)
-```
+### some cmds
+    
+    
+    cd $(pipenv --venv)
+
+    ipconfig getifaddr en0
+    
