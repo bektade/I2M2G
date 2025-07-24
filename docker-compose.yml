@@ -42,16 +42,16 @@ services:
       # Docker environment flag
       - DOCKER_ENV=true
       # MQTT configuration
-      - MQTT_SERVER=mqtt
-      - MQTT_PORT=1883
-      - MQTT_USER=${MQTT_USER:-}
-      - MQTT_PASSWORD=${MQTT_PASSWORD:-}
-      - MQTT_TOPIC_PREFIX=${MQTT_TOPIC_PREFIX:-xcel_itron_5/}
-      # Simulator configuration (no real meter IP or certificates needed)
-      - SIMULATOR_IP=10.195.251.91
-      - SIMULATOR_PORT=8082
+      - MQTT_SERVER=${MQTT_SERVER}
+      - MQTT_PORT=${MQTT_PORT}
+      - MQTT_USER=${MQTT_USER}
+      - MQTT_PASSWORD=${MQTT_PASSWORD}
+      - MQTT_TOPIC_PREFIX=${MQTT_TOPIC_PREFIX}
+      # Simulator configuration
+      - SIMULATOR_IP=${SIMULATOR_IP}
+      - SIMULATOR_PORT=${SIMULATOR_PORT}
       # Logging configuration
-      - LOGLEVEL=${LOGLEVEL:-INFO}
+      - LOGLEVEL=${LOGLEVEL}
     restart: unless-stopped
 
 
@@ -64,11 +64,11 @@ services:
       - "8086:8086"
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_INIT_USERNAME:-admin}
-      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_INIT_PASSWORD:-adminpassword}
-      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_INIT_ORG:-myorg}
-      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_INIT_BUCKET:-power_usage}
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_INIT_ADMIN_TOKEN:-super-secret-key}
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_INIT_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_INIT_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_INIT_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_INIT_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_INIT_ADMIN_TOKEN}
     volumes:
       - influxdb_data:/var/lib/influxdb2
       - influxdb_config:/etc/influxdb2
@@ -85,9 +85,9 @@ services:
       - influxdb
     environment:
       - INFLUX_URL=http://influxdb:8086
-      - INFLUX_TOKEN=${INFLUXDB_INIT_ADMIN_TOKEN:-super-secret-key}
-      - INFLUX_ORG=${INFLUXDB_INIT_ORG:-myorg}
-      - INFLUX_BUCKET=${INFLUXDB_INIT_BUCKET:-power_usage}
+      - INFLUX_TOKEN=${INFLUXDB_INIT_ADMIN_TOKEN}
+      - INFLUX_ORG=${INFLUXDB_INIT_ORG}
+      - INFLUX_BUCKET=${INFLUXDB_INIT_BUCKET}
     volumes:
       - ./mqtt2grafana/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     networks:
@@ -101,8 +101,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=false
     volumes:
       - grafana_data:/var/lib/grafana
