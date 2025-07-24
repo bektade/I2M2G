@@ -1,6 +1,6 @@
 # I2M2G - Smart Meter Monitoring
 
-Simple Docker-based smart meter monitoring with Grafana visualization.
+Simple Docker-based smart meter monitoring with Grafana visualization. Needs energy launchpad running in a separate container which `meter2mqtt` will send get request to it and publish the response to mqtt broker. Telegraph listens to incoming message in MQTT and sends data to InfluxDB. Grafana connects to InfluxDB and viuslizes data in real time (5 sec update).
 
 ## Quick Start
 
