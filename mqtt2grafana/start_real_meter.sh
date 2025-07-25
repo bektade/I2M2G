@@ -10,9 +10,13 @@ echo "Starting automated setup process..."
 echo ""
 
 # Step 1: Check if SSL keys exist
+
 echo "Step 1: Checking for existing SSL keys..."
-if ./scripts/generate_keys.sh -p; then
+KEY_OUTPUT=$(./scripts/generate_keys.sh -p)
+
+if [[ -n "$KEY_OUTPUT" ]]; then
     echo "✅ SSL keys found."
+    echo "$KEY_OUTPUT"
 else
     echo "❌ SSL keys not found. Generating new keys..."
     ./scripts/generate_keys.sh
@@ -20,6 +24,7 @@ else
     echo "Displaying generated keys..."
     ./scripts/generate_keys.sh -p
 fi
+
 
 echo ""
 echo "Step 2: Detecting host IP address... (not needed for real meter)"
