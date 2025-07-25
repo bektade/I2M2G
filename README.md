@@ -5,15 +5,9 @@ This application connects to a smart meter simulator agent running in Energy Lau
 ### step-1: Quick Start
 
 ```bash
-./setup.sh
+./start.sh
 ```
 
-This will:
-
-- Detect IP address automatically
-- Create `.env` from template
-- Start all services in background
-- Show meter2mqtt logs
 
 ### step-2: Access Dashboards & connect Grafana with InfluxDB
 
@@ -28,14 +22,3 @@ You must manually connect Grafana to InfluxDB after startup. See [how to connect
 > - check if simulator is working at : `http://<your_host_IP>:8082/swagger/index.html`)
 > - Find  username and passwords in .env file for both InfluxDB & Grafana
 
-**Note**: In Grafana, add InfluxDB as a data source. Get the configuration details in `.env` file:
-
-- URL: `http://influxdb:8086`
-- Token: `super-secret-key`
-- Org: `myorg`
-- Bucket: `power_usage`
-- Query Language: Flux
-
-## Data Flow
-
-Simulator → meter2mqtt → MQTT → Telegraf → InfluxDB → Grafana
