@@ -8,8 +8,6 @@
 
 set -e
 
-echo "🔐 XCEL ITRON2MQTT - ENVIRONMENT SETUP"
-echo "========================================"
 
 # Check if .env already exists
 if [ -f ".env" ]; then
@@ -34,7 +32,7 @@ fi
 echo ""
 echo "🔧 ENVIRONMENT VARIABLES SETUP"
 echo "==============================="
-echo ""
+
 
 # Function to prompt for secure input
 prompt_secure() {
@@ -61,9 +59,10 @@ prompt_secure() {
 
 # Prompt for Meter IP
 echo ""
-echo "🔌 METER CONFIGURATION"
+echo "🔌 METER CONFIGURATION (VERY IMPORTANT)"
 echo "----------------------"
-prompt_secure "METER_IP" "192.168.1.100" "Meter IP address"
+prompt_secure "METER_IP" "10.28.10.xx" "Meter IP address"
+prompt_secure "METER_PORT" "8081" "Meter communication port"
 
 echo ""
 echo "📡 MQTT CONFIGURATION"
@@ -85,7 +84,7 @@ echo "🔑 Generating secure InfluxDB admin token..."
 INFLUXDB_TOKEN=$(openssl rand -hex 32)
 sed -i.bak "s/^INFLUXDB_INIT_ADMIN_TOKEN=.*/INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}/" .env
 rm -f .env.bak
-echo "   ✅ Generated secure token"
+echo "   ✅ Generated secure token: ${INFLUXDB_TOKEN}"
 
 echo ""
 echo "📊 GRAFANA CONFIGURATION"
@@ -98,28 +97,9 @@ prompt_secure "GRAFANA_ADMIN_PASSWORD" "admin" "Grafana admin password"
 echo ""
 echo "⚙️  APPLICATION CONFIGURATION"
 echo "----------------------------"
-prompt_secure "METER_PORT" "8081" "Meter communication port"
+
 prompt_secure "LOGLEVEL" "DEBUG" "Logging level (DEBUG, INFO, WARNING, ERROR)"
 
 echo ""
 echo "✅ ENVIRONMENT SETUP COMPLETE!"
 echo "=============================="
-echo ""
-echo "🔒 Security Notes:"
-echo "   • Your .env file contains sensitive data"
-echo "   • It's already in .gitignore and won't be committed"
-echo "   • Change default passwords in production"
-echo "   • Consider using a secrets manager for production"
-echo ""
-echo "🚀 Next Steps:"
-echo "   1. Review your .env file: cat .env"
-echo "   2. Start the stack: docker-compose up -d"
-echo "   3. Access Grafana: http://localhost:3000"
-echo "   4. Access InfluxDB: http://localhost:8086"
-echo ""
-echo "📊 Grafana Setup:"
-echo "   • Grafana will start with manual UI setup (no hardcoded provisioning)"
-echo "   • See docs/grafana_manual_setup.md for detailed setup instructions"
-echo "   • You'll need to manually add the InfluxDB data source and import dashboards"
-echo ""
-echo "📚 For more information, see the README.md " 

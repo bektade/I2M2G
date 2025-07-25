@@ -20,13 +20,13 @@ Help()
 generate_new_keys()
 {
     # Generate new TLS1.2 keys for Xcel meter
-    echo "Generating new keys!"
+    echo ""
     openssl req -x509 -nodes -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -keyout ${CERT_DIR}/${KEY_FILENAME} -out ${CERT_DIR}/${CERT_FILENAME} -sha256 -days 1094 -subj '/CN=MeterReaderHanClient' -addext "certificatePolicies = critical,1.3.6.1.4.1.40732.2.2" -addext "keyUsage = critical,digitalSignature"
 }
 
 print_LFDI()
 {
-    echo "The following string of numbers should be used as your LFDI value on the Xcel website:"
+    echo ""
     # Print out the LFDI string for registration
     openssl x509 -noout -fingerprint -SHA256 -inform pem -in ${CERT_DIR}/${CERT_FILENAME} | sed -e 's/://g' -e 's/SHA256 Fingerprint=//g' | cut -c1-40
 }
