@@ -24,6 +24,10 @@ You must manually connect Grafana to InfluxDB after startup. See [how to connect
 
 > Note: Use the credentials from your .env file for InfluxDB connection. The default values are admin/adminpassword.
 
+### Tips 
+> - check if simulator is working at : `http://<your_host_IP>:8082/swagger/index.html`)
+> - Find  username and passwords in .env file for both InfluxDB & Grafana
+
 **Note**: In Grafana, add InfluxDB as a data source. Get the configuration details in `.env` file:
 
 - URL: `http://influxdb:8086`

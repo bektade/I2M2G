@@ -4,15 +4,23 @@ echo "=== I2M2G Setup ==="
 echo ""
 
 # Get the simulator IP from en0 interface
-SIMULATOR_IP=$(ipconfig getifaddr en0)
+# Ask user if they are on a Mac
+read -p "Are you running this script on a Mac? (y/n): " is_mac
 
-# Validate that we got an IP
-if [ -z "$SIMULATOR_IP" ]; then
-    echo "❌ Could not get IP address from en0 interface. Please check your network connection."
-    exit 1
+if [[ "$is_mac" == "y" || "$is_mac" == "Y" ]]; then
+    HOST_IP=$(ipconfig getifaddr en0)
+else
+    # Try to get the IP address from the default route interface on Linux
+    DEFAULT_IFACE=$(ip route | awk '/default/ {print $5}' | head -n 1)
+    HOST_IP=$(ip -4 addr show "$DEFAULT_IFACE" | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -n 1)
 fi
 
-echo "Detected Simulator IP from en0: $SIMULATOR_IP"
+# Validate that we got an IP
+if [ -z "$HOST_IP" ]; then
+    echo "Could not determine IP address. Please check your network connection."
+    exit 1
+fi
+echo "Retrieved Host IP: $HOST_IP"
 
 # Check if .env exists
 if [ ! -f ".env" ]; then
@@ -44,7 +52,7 @@ echo "=== Starting I2M2G ==="
 echo "This will start the complete monitoring stack."
 echo ""
 
-docker-compose up --build -d
+docker compose up --build -d
 
 sleep 5
-docker-compose logs -f meter2mqtt
+docker compose logs -f meter2mqtt
