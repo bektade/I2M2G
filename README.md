@@ -20,14 +20,16 @@ There are two ways to use this application:
 
 ## Quick start for Real Meter ( OPTION A)
 
-1. clone the repo 
-2. cd `mqtt2grafana`
-3. run `./start_real_meter.sh`
-4. Login to InfluxDB at http://localhost:8086  & to Grafana at http://localhost:8086  
-5. connect grafana with InfluxDB  [(follow instruction here )](/mqtt2grafana/docs/connect_influxdb_2_grafana.md)
-6. stop container and delete everything run `./remove_real_meter.sh` 
+1. clone the repo and add SSL KEYS in mqtt2grafana directory
 
+    <img src="mqtt2grafana/docs/img/tree.jpg" alt="" width="60%"/>
+  
+    > VERY IMPORTNAT : Add SSL keys in mqtt2grafana directory before doing anything. See the file structure below:
 
+2. cd `mqtt2grafana` and then run `./start_real_meter.sh`
+3. Login to InfluxDB at http://localhost:8086  & to Grafana at http://localhost:8086  
+4. connect grafana with InfluxDB  [(follow instruction here )](/mqtt2grafana/docs/connect_influxdb_2_grafana.md)
+5. stop container and delete everything run `./remove_real_meter.sh` 
 
 ### Tips 
 > - Find  username and passwords in .env file for both InfluxDB & Grafana
