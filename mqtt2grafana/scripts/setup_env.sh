@@ -8,7 +8,6 @@
 
 set -e
 
-
 # Check if .env already exists
 if [ -f ".env" ]; then
     echo "⚠️  .env file already exists!"
@@ -64,20 +63,7 @@ echo "----------------------"
 prompt_secure "METER_IP" "10.28.10.xx" "Meter IP address"
 prompt_secure "METER_PORT" "8081" "Meter communication port"
 
-echo ""
-echo "📡 MQTT CONFIGURATION"
-echo "---------------------"
-prompt_secure "MQTT_SERVER" "mqtt" "MQTT server hostname"
-prompt_secure "MQTT_PORT" "1883" "MQTT server port"
-echo "   Note: MQTT_USER and MQTT_PASSWORD are optional (leave empty for no auth)"
 
-# Prompt for InfluxDB credentials
-echo "🗄️  INFLUXDB CONFIGURATION"
-echo "---------------------------"
-prompt_secure "INFLUXDB_INIT_USERNAME" "admin" "InfluxDB admin username"
-prompt_secure "INFLUXDB_INIT_PASSWORD" "adminpassword" "InfluxDB admin password"
-prompt_secure "INFLUXDB_INIT_ORG" "myorg" "InfluxDB organization name"
-prompt_secure "INFLUXDB_INIT_BUCKET" "energy_data" "InfluxDB bucket name"
 
 # Generate a secure token for InfluxDB
 echo "🔑 Generating secure InfluxDB admin token..."
@@ -86,20 +72,16 @@ sed -i.bak "s/^INFLUXDB_INIT_ADMIN_TOKEN=.*/INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB
 rm -f .env.bak
 echo "   ✅ Generated secure token: ${INFLUXDB_TOKEN}"
 
-echo ""
-echo "📊 GRAFANA CONFIGURATION"
-echo "------------------------"
-prompt_secure "GRAFANA_ADMIN_USER" "admin" "Grafana admin username"
-prompt_secure "GRAFANA_ADMIN_PASSWORD" "admin" "Grafana admin password"
 
 
 
 echo ""
-echo "⚙️  APPLICATION CONFIGURATION"
+echo "LOGGING CONFIGURATION"
 echo "----------------------------"
 
 prompt_secure "LOGLEVEL" "DEBUG" "Logging level (DEBUG, INFO, WARNING, ERROR)"
 
 echo ""
-echo "✅ ENVIRONMENT SETUP COMPLETE!"
+echo "✅ .env SETUP COMPLETE!"
+echo "CUSOMIZE YOUR SETTINGS AS NEEDED in .env file"
 echo "=============================="
