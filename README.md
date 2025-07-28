@@ -48,7 +48,7 @@ There are two ways to use this application:
 
 3. cd `simulatedMeter2mqtt` and Run 
     ```
-    pipenv shell && pipenv install -r requirements.txt && python main_simulated_pub.py`
+    pipenv shell && pipenv install -r requirements.txt && python main_publishData.py`
     ```
 
 4. Sign in to InfluxDB and Grafana ( same process)
