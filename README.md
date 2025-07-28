@@ -4,8 +4,14 @@ This application connects to a smart meter simulator agent running in Energy Lau
 
 ### step-1: Quick Start
 
+**For macOS:**
 ```bash
-./start.sh
+./start-mac.sh
+```
+
+**For Linux:**
+```bash
+./start-linux.sh
 ```
 
 
