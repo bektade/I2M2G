@@ -56,12 +56,12 @@ prompt_secure() {
     rm -f .env.bak
 }
 
-# Prompt for Meter IP
-echo ""
-echo "🔌 METER CONFIGURATION (VERY IMPORTANT)"
-echo "----------------------"
-prompt_secure "METER_IP" "10.28.10.xx" "Meter IP address"
-prompt_secure "METER_PORT" "8081" "Meter communication port"
+# # Prompt for Meter IP
+# echo ""
+# echo "🔌 METER CONFIGURATION (VERY IMPORTANT)"
+# echo "----------------------"
+# prompt_secure "METER_IP" "10.28.10.xx" "Meter IP address"
+# prompt_secure "METER_PORT" "8081" "Meter communication port"
 
 
 

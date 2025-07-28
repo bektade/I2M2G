@@ -49,15 +49,23 @@ class xcelMeter():
     def __init__(self, name: str, ip_address: str, port: int, creds: Tuple[str, str]):
         self.name = name
         self.POLLING_RATE = 5.0
+        self.ip_address = "10.28.10.181"
         # Base URL used to query the meter
         self.url = f'https://{ip_address}:{port}'
 
         # Setup the MQTT server connection
         self.mqtt_server_address = os.getenv('MQTT_SERVER')
         self.mqtt_port = self.get_mqtt_port()
+
+        logger.info(f"I. Meter initialization step-1: SETTING UP MQTT SERVER at xcelMeter() __init__\n")
+        logging.info("====================================================================================\n\n\n")
+    
+        
         self.mqtt_client = self.setup_mqtt(self.mqtt_server_address, self.mqtt_port)
 
         # Create a new requests session based on the passed in ip address and port #
+        logger.info(f"II. Meter initialization step-2: Setting up requests session for Meter Ip address{ip_address}: at {port} with certs {creds}\n")
+        logging.info("====================================================================================\n\n\n")
         self.requests_session = self.setup_session(creds, ip_address)
 
         # Set to uninitialized
@@ -73,10 +81,17 @@ class xcelMeter():
         # Endpoint of the meter used for HW info
         hw_info_url = '/sdev/sdi' # e.g. http://localhost:8082/sdev/sdi or http://<IP_ADDRESS>:8082/sdev/sdi
         # Query the meter to get some more details about it
+
+        logger.info(f"III: METER SETUP => Getting hardware details from meter: ...")
+        logging.info("====================================================================================\n\n\n")
         details_dict = self.get_hardware_details(hw_info_url, hw_info_names)
         self._mfid = details_dict['mfID']
         self._lfdi = details_dict['lFDI']
         self._swVer = details_dict['swVer']
+        
+        
+        logger.info(f"Hardware details dict : {details_dict}\n")
+        
 
         # Device info used for home assistant MQTT discovery
         self.device_info = {
@@ -90,15 +105,25 @@ class xcelMeter():
         # Send homeassistant a new device config for the meter
         self.send_mqtt_config()
 
+        logging.info("METER SETUP => ... based on the swVER of the meter in Device configuration!")
+        logging.info("====================================================================================\n\n\n")
+
         # The swVer will dictate which version of endpoints we use
         endpoints_file_ver = 'default' if str(self._swVer) != '3.2.39' else '3_2_39'
+
+        logger.info(f"__init__ xcelMeter() => Using endpoints file: endpoints_{endpoints_file_ver}.yaml\n")
+
+
         # List to store our endpoint objects in
         self.endpoints_list = self.load_endpoints(f'configs/endpoints_{endpoints_file_ver}.yaml')
+        logger.info(f"__init__ xcelMeter() => Loaded endpoints: {self.endpoints_list}\n")
 
         # create endpoints from list
         self.endpoints = self.create_endpoints(self.endpoints_list, self.device_info)
+        logger.info(f"__init__ xcelMeter() => Created endpoints: {self.endpoints}\n")
 
         # ready to go
+        logger.info(f"__init__ xcelMeter() => Meter {self.name} setup complete and ready to run!\n\n\n\n\n\n")
         self.initalized = True
 
     def get_hardware_details(self, hw_info_url: str, hw_names: list) -> dict:
@@ -108,6 +133,7 @@ class xcelMeter():
 
         Returns: dict, {<element name>: <meter response>}
         """
+        logging.info(f"Inside get_hardware_details() =>Build query url {self.url}{hw_info_url}\n")
         query_url = f'{self.url}{hw_info_url}'
         # query the hw specs endpoint
         x = self.requests_session.get(query_url, verify=False, timeout=4.0)
@@ -131,6 +157,8 @@ class xcelMeter():
         session.cert = creds
         # Mount our adapter to the domain
         session.mount('https://{ip_address}', CCM8Adapter())
+
+        logging.info(f"setup_session() => Created a new requests session for {ip_address} with certs {creds} at {session}\n")
 
         return session
 
@@ -182,7 +210,7 @@ class xcelMeter():
         """
         def on_connect(client, userdata, flags, rc):
             if rc == 0:
-                logging.info("Connected to MQTT Broker!")
+                logging.info("setup_mqtt(): Connected to MQTT Broker! ... XcelMeter.py Line 196 \n\n")
             else:
                 logging.error("Failed to connect, return code %d\n", rc)
 
@@ -219,10 +247,13 @@ class xcelMeter():
         
         Returns: None
         """
-
+        logger.info("Inside send_mqtt_config() xcelMeter.py L 237")
         # {self.name.replace(" ", "_").lower() creates xcel_itron_5 from Xcel Itron 5 to make homeassistant/device/energy/xcel_itron_5
+        
+        
         state_topic = f'homeassistant/device/energy/{self.name.replace(" ", "_").lower()}' 
-        logging.info(f"MQTT Discovery Topic being used: {state_topic}")  # <-- Added logging here
+        logging.info(f"send_mqtt_config() => created a topic turning using {self.name} : {state_topic}\n\n")
+       
         config_dict = {
             "name": self.name,
             "device_class": "energy",
@@ -231,24 +262,19 @@ class xcelMeter():
             }
         config_dict.update(self.device_info)
         config_json = json.dumps(config_dict)
-        logging.debug(f"")
-        logging.debug(f"")
-        logging.debug(f"Sending MQTT Discovery Payload")
-        logging.debug(f"")
-        logging.debug(f"")
-        logging.debug(f"TOPIC: {state_topic}")
-        logging.debug(f"")
-        logging.debug(f"")
-        logging.debug(f"MESSAGE: {config_json}")
-        logging.debug(f"")
-        logging.debug(f"")
-        logging.info(f"Formatted JSON Structure of MEssage ( DEVICE INFO): {json.dumps(config_dict, indent=2)}")
-        logging.debug(f"")
-        logging.debug(f"")
+       
+        logging.info(f"Device configuration : {json.dumps(config_dict, indent=2)}\n")
+       
         logging.info(f"Publishing to topic: {state_topic}")  # <-- Log topic before publish
 
         # JUST NEED TO CUSTOMIZE PUBLISH METHOD!
+
+        logging.info(f"Ready to publsih ... ")
+        logging.info(f"Publishing to topic: {state_topic} with payload: {config_json}\n")
+
+        # mqtt client just takes topic and payload and then publishes to the MQTT server!!!
         self.mqtt_client.publish(state_topic, str(config_json))
+        logging.info(f"device configuration published to MQTT topic successfully!\n\n\n")
 
     def run(self) -> None:
         """
@@ -262,3 +288,4 @@ class xcelMeter():
             sleep(self.POLLING_RATE)
             for obj in self.endpoints:
                 obj.run()
+

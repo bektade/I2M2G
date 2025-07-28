@@ -86,7 +86,29 @@ if __name__ == '__main__':
         ip_address, port_num = mDNS_search_for_meter()
         # ip_address, port_num = "10.28.10.181", 8081
     creds = look_for_creds()
+
+    # METER CONFIGURATION
+    ip_address, port_num = "10.28.10.181", 8081
+
+    # create a new xcelMeter instance i.e. initialize with the ip address, port, and credentials
     meter = xcelMeter(INTEGRATION_NAME, ip_address, port_num, creds)
+
+    """
+    meter.setup() will do the following:
+
+    1. gets hardware details in a dict via get_hardware_details(hw_info_url, hw_info_names) 
+
+            - hw_info_names = ['lFDI', 'swVer', 'mfID']
+            - hw_info_url = '/sdev/sdi' 
+    
+    2. sends mqtt about device information : DEVICE CONFIGURATION
+
+    3. depending on swVer, dictate which endpoint to use for querying the meter
+         - endpoints 3_2_39.yml or 
+         - default endpoints.yml
+
+    4. create end points
+    """
     meter.setup()
 
     if meter.initalized:

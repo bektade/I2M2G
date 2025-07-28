@@ -113,6 +113,17 @@ class xcelEndpoint():
         mqtt_topic = f'{self._mqtt_topic_prefix}{entity_type}/{mqtt_friendly_name}/{sensor_name}/config'
         # Capture the state topic the sensor is associated with for later use
         self._sensor_state_topics[sensor_name] = payload['state_topic']
+
+        logging.info(f"\n\n\n\n\n\n\n=========================================================")
+        logging.info(f"=========================================================")
+        logging.info(f"=========================================================")
+        logging.info(f"=========================================================")
+        logging.info(f"THIS MAY BE WHAT YOU ARE LOOKING FOR THIS WHOLE TIME!!!")
+        logging.info(f"MQTT TOPIC: {mqtt_topic}\n")
+        logging.info(f"PAYLOAD: {payload}\n")
+        logging.info(f"Sensor Name: {sensor_name}\n")
+
+        logging.info(f"Creating MQTT config for {sensor_name} with topic {mqtt_topic} and payload: {payload}")
         payload = json.dumps(payload)
 
         return mqtt_topic, payload
@@ -130,6 +141,7 @@ class xcelEndpoint():
                     name, details = val_items.popitem()
                     sensor_name = f'{k}{name}'
                     mqtt_topic, payload = self.create_config(sensor_name, details)
+
                     # Send MQTT payload
                     self.mqtt_publish(mqtt_topic, str(payload))
             else:
@@ -144,6 +156,10 @@ class xcelEndpoint():
 
         Returns: None
         """
+
+        logging.debug(f"READINGS FROM METER => XcelEndpoint L160: {reading}\n\n\n")
+
+
         mqtt_topic_message = {}
         # Cycle through all the readings for the given sensor
         for k, v in reading.items():
@@ -155,6 +171,9 @@ class xcelEndpoint():
             mqtt_topic_message[topic] = v
 
         # Cycle through and send the payload to the associated keys
+
+        logging.debug(f"MQTT TOPIC MESSAGE: {mqtt_topic_message}\n\n\n")
+        logging.debug(f"MQTT TOPIC MESSAGE KEYS: {mqtt_topic_message.keys()}\n")
         for topic, payload in mqtt_topic_message.items():
             self.mqtt_publish(topic, payload)
 
@@ -165,9 +184,18 @@ class xcelEndpoint():
         Returns: integer
         """
         result = [0]
+
+
+        # logging.debug("THIS IS WHERE THE ACTUAL PUBLISH HAPPENS!!!!!\n\n\n")
+        # logging.debug("=========================================================")
+
+
+
         print(f"Sending to MQTT TOPIC:\t{topic}")
         
-        print(f"Payload (message):\t\t{message}")
+        print(f"Payload (message) being published!!!:\t\t{message}")
+
+       
         
         
         result = self.client.publish(topic, str(message), retain=retain)
