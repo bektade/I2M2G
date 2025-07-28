@@ -26,4 +26,8 @@
 > - use `query Builder` feature to generate Flux queries and use the query to build a dashborad in grafana.
 
 
+### Tips for changing MQTT TOPIC
+- To change MQTT topic prefix, simply upadte the `env.template` file's `"MQTT_TOPIC_PREFIX"` under `"MQTT Configuration"`
+
+
 
