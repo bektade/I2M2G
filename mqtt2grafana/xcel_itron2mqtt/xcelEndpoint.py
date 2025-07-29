@@ -87,8 +87,39 @@ class xcelEndpoint():
         
         Returns: Dict in the form of {reading: value}
         """
+        # DEBUGGING: Add detailed logging for get_reading method
+        logging.info("=" * 80)
+        logging.info("DEBUGGING GET_READING IN xcelEndpoint.py")
+        logging.info("=" * 80)
+        logging.info(f"Querying URL: {self.url}")
+        logging.info(f"Endpoint name: {self.name}")
+        logging.info(f"Endpoint tags: {self.tags}")
+        logging.info("=" * 80)
+
         response = self.query_endpoint()
+
+        # DEBUGGING: Add detailed logging after query_endpoint
+        logging.info("=" * 80)
+        logging.info(
+            "DEBUGGING AFTER QUERY_ENDPOINT IN xcelEndpoint.py get_reading()")
+        logging.info("=" * 80)
+        logging.info(f"Response type: {type(response)}")
+        logging.info(f"Response length: {len(response)} characters")
+        logging.info(f"Response preview (first 500 chars): {response[:500]}")
+        logging.info("=" * 80)
+
         self.current_response = self.parse_response(response, self.tags)
+
+        # DEBUGGING: Add detailed logging after parse_response
+        logging.info("=" * 80)
+        logging.info(
+            "DEBUGGING AFTER PARSE_RESPONSE IN xcelEndpoint.py get_reading()")
+        logging.info("=" * 80)
+        logging.info(f"Parsed response: {self.current_response}")
+        logging.info(f"Parsed response type: {type(self.current_response)}")
+        logging.info(
+            f"Parsed response keys: {list(self.current_response.keys()) if isinstance(self.current_response, dict) else 'Not a dict'}")
+        logging.info("=" * 80)
 
         return self.current_response
 
@@ -134,6 +165,15 @@ class xcelEndpoint():
         easily setup the sensor/device once it appears over mqtt
         https://www.home-assistant.io/integrations/mqtt/
         """
+        logging.info("=" * 80)
+        logging.info(
+            "DEBUGGING MQTT CONFIG SEND IN xcelEndpoint.py mqtt_send_config()")
+        logging.info("=" * 80)
+        logging.info(f"Self tags: {self.tags}")
+        logging.info(f"Self name: {self.name}")
+        logging.info(f"Self device_info: {self.device_info}")
+        logging.info("=" * 80)
+
         _tags = deepcopy(self.tags)
         for k, v in _tags.items():
             if isinstance(v, list):
@@ -142,12 +182,56 @@ class xcelEndpoint():
                     sensor_name = f'{k}{name}'
                     mqtt_topic, payload = self.create_config(sensor_name, details)
 
+                    # DEBUGGING: Add detailed logging before MQTT config publish
+                    logging.info("=" * 80)
+                    logging.info(
+                        "DEBUGGING MQTT CONFIG PUBLISH IN xcelEndpoint.py mqtt_send_config()")
+                    logging.info("=" * 80)
+                    logging.info(f"Sensor name: {sensor_name}")
+                    logging.info(f"MQTT topic: {mqtt_topic}")
+                    logging.info(f"Payload type: {type(payload)}")
+                    logging.info(f"Payload value: {payload}")
+                    logging.info(f"Payload length: {len(payload)} characters")
+                    logging.info("=" * 80)
+
                     # Send MQTT payload
-                    self.mqtt_publish(mqtt_topic, str(payload))
+                    publish_result = self.mqtt_publish(
+                        mqtt_topic, str(payload))
+
+                    # DEBUGGING: Add detailed logging after MQTT config publish
+                    logging.info("=" * 80)
+                    logging.info(
+                        "MQTT CONFIG PUBLISH RESULT IN xcelEndpoint.py mqtt_send_config()")
+                    logging.info("=" * 80)
+                    logging.info(f"Publish result: {publish_result}")
+                    logging.info("=" * 80)
             else:
                 name_suffix = f'{k[0].upper()}'
                 mqtt_topic, payload = self.create_config(k, v)
-                self.mqtt_publish(mqtt_topic, str(payload), retain=True)
+
+                # DEBUGGING: Add detailed logging before MQTT config publish (retain=True)
+                logging.info("=" * 80)
+                logging.info(
+                    "DEBUGGING MQTT CONFIG PUBLISH (RETAIN) IN xcelEndpoint.py mqtt_send_config()")
+                logging.info("=" * 80)
+                logging.info(f"Key: {k}")
+                logging.info(f"MQTT topic: {mqtt_topic}")
+                logging.info(f"Payload type: {type(payload)}")
+                logging.info(f"Payload value: {payload}")
+                logging.info(f"Payload length: {len(payload)} characters")
+                logging.info(f"Retain flag: True")
+                logging.info("=" * 80)
+
+                publish_result = self.mqtt_publish(
+                    mqtt_topic, str(payload), retain=True)
+
+                # DEBUGGING: Add detailed logging after MQTT config publish (retain=True)
+                logging.info("=" * 80)
+                logging.info(
+                    "MQTT CONFIG PUBLISH RESULT (RETAIN) IN xcelEndpoint.py mqtt_send_config()")
+                logging.info("=" * 80)
+                logging.info(f"Publish result: {publish_result}")
+                logging.info("=" * 80)
 
     def process_send_mqtt(self, reading: dict) -> None:
         """
@@ -159,10 +243,30 @@ class xcelEndpoint():
 
         logging.debug(f"READINGS FROM METER => XcelEndpoint L160: {reading}\n\n\n")
 
+        # DEBUGGING: Add detailed logging for process_send_mqtt
+        logging.info("=" * 80)
+        logging.info("DEBUGGING PROCESS_SEND_MQTT IN xcelEndpoint.py")
+        logging.info("=" * 80)
+        logging.info(f"Reading dict: {reading}")
+        logging.info(f"Reading dict type: {type(reading)}")
+        logging.info(f"Reading dict keys: {list(reading.keys())}")
+        logging.info(f"Self _sensor_state_topics: {self._sensor_state_topics}")
+        logging.info("=" * 80)
 
         mqtt_topic_message = {}
         # Cycle through all the readings for the given sensor
         for k, v in reading.items():
+            # DEBUGGING: Add detailed logging for each reading processing
+            logging.info("=" * 80)
+            logging.info(
+                "DEBUGGING READING PROCESSING IN xcelEndpoint.py process_send_mqtt()")
+            logging.info("=" * 80)
+            logging.info(f"Processing key: {k}, value: {v}")
+            logging.info(f"Value type: {type(v)}")
+            logging.info(
+                f"Looking for topic in _sensor_state_topics for key: {k}")
+            logging.info("=" * 80)
+
             # Figure out which topic this reading needs to be sent to
             topic = self._sensor_state_topics[k]
             if topic not in mqtt_topic_message.keys():
@@ -170,12 +274,50 @@ class xcelEndpoint():
             # Create dict of {topic: payload}
             mqtt_topic_message[topic] = v
 
+            # DEBUGGING: Add detailed logging for topic assignment
+            logging.info("=" * 80)
+            logging.info(
+                "DEBUGGING TOPIC ASSIGNMENT IN xcelEndpoint.py process_send_mqtt()")
+            logging.info("=" * 80)
+            logging.info(f"Assigned topic: {topic}")
+            logging.info(f"Current mqtt_topic_message: {mqtt_topic_message}")
+            logging.info("=" * 80)
+
         # Cycle through and send the payload to the associated keys
 
         logging.debug(f"MQTT TOPIC MESSAGE: {mqtt_topic_message}\n\n\n")
         logging.debug(f"MQTT TOPIC MESSAGE KEYS: {mqtt_topic_message.keys()}\n")
+
+        # DEBUGGING: Add detailed logging before sending messages
+        logging.info("=" * 80)
+        logging.info(
+            "DEBUGGING FINAL MQTT MESSAGE SEND IN xcelEndpoint.py process_send_mqtt()")
+        logging.info("=" * 80)
+        logging.info(f"Final mqtt_topic_message: {mqtt_topic_message}")
+        logging.info(f"Number of topics to publish: {len(mqtt_topic_message)}")
+        logging.info("=" * 80)
+
         for topic, payload in mqtt_topic_message.items():
-            self.mqtt_publish(topic, payload)
+            # DEBUGGING: Add detailed logging for each message publish
+            logging.info("=" * 80)
+            logging.info(
+                "DEBUGGING MESSAGE PUBLISH IN xcelEndpoint.py process_send_mqtt()")
+            logging.info("=" * 80)
+            logging.info(f"Publishing to topic: {topic}")
+            logging.info(f"Payload: {payload}")
+            logging.info(f"Payload type: {type(payload)}")
+            logging.info(f"Payload length: {len(str(payload))} characters")
+            logging.info("=" * 80)
+
+            publish_result = self.mqtt_publish(topic, payload)
+
+            # DEBUGGING: Add detailed logging after each message publish
+            logging.info("=" * 80)
+            logging.info(
+                "DEBUGGING MESSAGE PUBLISH RESULT IN xcelEndpoint.py process_send_mqtt()")
+            logging.info("=" * 80)
+            logging.info(f"Publish result: {publish_result}")
+            logging.info("=" * 80)
 
     def mqtt_publish(self, topic: str, message: str, retain=False) -> int:
         """
@@ -185,20 +327,50 @@ class xcelEndpoint():
         """
         result = [0]
 
+        # DEBUGGING: Add detailed logging before MQTT publish
+        logging.info("=" * 80)
+        logging.info(
+            "DEBUGGING MQTT PUBLISH IN xcelEndpoint.py mqtt_publish()")
+        logging.info("=" * 80)
+        logging.info(f"Topic: '{topic}'")
+        logging.info(f"Topic type: {type(topic)}")
+        logging.info(f"Message: '{message}'")
+        logging.info(f"Message type: {type(message)}")
+        logging.info(f"Message length: {len(str(message))} characters")
+        logging.info(f"Retain flag: {retain}")
+        logging.info(f"MQTT Client object: {self.client}")
+        logging.info(f"MQTT Client connected: {self.client.is_connected()}")
+        logging.info("=" * 80)
 
         # logging.debug("THIS IS WHERE THE ACTUAL PUBLISH HAPPENS!!!!!\n\n\n")
         # logging.debug("=========================================================")
-
-
 
         print(f"Sending to MQTT TOPIC:\t{topic}")
         
         print(f"Payload (message) being published!!!:\t\t{message}")
 
-       
-        
-        
+        # DEBUGGING: Add detailed logging right before client.publish call
+        logging.info("=" * 80)
+        logging.info(
+            "ABOUT TO CALL MQTT CLIENT.PUBLISH IN xcelEndpoint.py mqtt_publish()")
+        logging.info("=" * 80)
+        logging.info(
+            f"Calling: self.client.publish('{topic}', '{message}', retain={retain})")
+        logging.info("=" * 80)
+
         result = self.client.publish(topic, str(message), retain=retain)
+        
+        # DEBUGGING: Add detailed logging after MQTT publish
+        logging.info("=" * 80)
+        logging.info("MQTT PUBLISH RESULT IN xcelEndpoint.py mqtt_publish()")
+        logging.info("=" * 80)
+        logging.info(f"Result object: {result}")
+        logging.info(f"Result type: {type(result)}")
+        logging.info(f"Result rc: {result.rc}")
+        logging.info(f"Result mid: {result.mid}")
+        logging.info(f"Result is_published: {result.is_published()}")
+        logging.info("=" * 80)
+
         print('\n')
         print('PUBLISH NOT SUCCESSFUL: Error in sending MQTT payload')
         # print(f"\n MQTT Send Result: \t\t{result}")
@@ -212,5 +384,31 @@ class xcelEndpoint():
 
         Returns: None
         """
+        # DEBUGGING: Add detailed logging for run method
+        logging.info("=" * 80)
+        logging.info("DEBUGGING RUN METHOD IN xcelEndpoint.py")
+        logging.info("=" * 80)
+        logging.info(f"Endpoint name: {self.name}")
+        logging.info(f"Endpoint URL: {self.url}")
+        logging.info(f"Endpoint tags: {self.tags}")
+        logging.info("=" * 80)
+
         reading = self.get_reading()
+
+        # DEBUGGING: Add detailed logging after get_reading
+        logging.info("=" * 80)
+        logging.info("DEBUGGING AFTER GET_READING IN xcelEndpoint.py run()")
+        logging.info("=" * 80)
+        logging.info(f"Reading result: {reading}")
+        logging.info(f"Reading type: {type(reading)}")
+        logging.info("=" * 80)
+
         self.process_send_mqtt(reading)
+
+        # DEBUGGING: Add detailed logging after process_send_mqtt
+        logging.info("=" * 80)
+        logging.info(
+            "DEBUGGING AFTER PROCESS_SEND_MQTT IN xcelEndpoint.py run()")
+        logging.info("=" * 80)
+        logging.info("Completed processing and sending MQTT messages")
+        logging.info("=" * 80)

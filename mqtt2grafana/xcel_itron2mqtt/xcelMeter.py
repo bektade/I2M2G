@@ -272,8 +272,37 @@ class xcelMeter():
         logging.info(f"Ready to publsih ... ")
         logging.info(f"Publishing to topic: {state_topic} with payload: {config_json}\n")
 
+        # DEBUGGING: Add detailed logging before MQTT publish
+        logging.info("=" * 80)
+        logging.info(
+            "DEBUGGING MQTT PUBLISH IN xcelMeter.py send_mqtt_config()")
+        logging.info("=" * 80)
+        logging.info(f"MQTT Client object: {self.mqtt_client}")
+        logging.info(
+            f"MQTT Client connected: {self.mqtt_client.is_connected()}")
+        logging.info(
+            f"Topic type: {type(state_topic)}, Topic value: '{state_topic}'")
+        logging.info(
+            f"Payload type: {type(config_json)}, Payload value: '{config_json}'")
+        logging.info(f"Payload length: {len(config_json)} characters")
+        logging.info("=" * 80)
+
         # mqtt client just takes topic and payload and then publishes to the MQTT server!!!
-        self.mqtt_client.publish(state_topic, str(config_json))
+        publish_result = self.mqtt_client.publish(
+            state_topic, str(config_json))
+
+        # DEBUGGING: Add detailed logging after MQTT publish
+        logging.info("=" * 80)
+        logging.info("MQTT PUBLISH RESULT IN xcelMeter.py send_mqtt_config()")
+        logging.info("=" * 80)
+        logging.info(f"Publish result object: {publish_result}")
+        logging.info(f"Publish result type: {type(publish_result)}")
+        logging.info(f"Publish result rc: {publish_result.rc}")
+        logging.info(f"Publish result mid: {publish_result.mid}")
+        logging.info(
+            f"Publish result is_published: {publish_result.is_published()}")
+        logging.info("=" * 80)
+
         logging.info(f"device configuration published to MQTT topic successfully!\n\n\n")
 
     def run(self) -> None:
@@ -284,8 +313,52 @@ class xcelMeter():
 
         Returns: None
         """
+        # DEBUGGING: Add detailed logging for run method
+        logging.info("=" * 80)
+        logging.info("DEBUGGING RUN METHOD IN xcelMeter.py")
+        logging.info("=" * 80)
+        logging.info(f"Meter name: {self.name}")
+        logging.info(f"Polling rate: {self.POLLING_RATE}")
+        logging.info(f"Number of endpoints: {len(self.endpoints)}")
+        logging.info(
+            f"Endpoints: {[endpoint.name for endpoint in self.endpoints]}")
+        logging.info("=" * 80)
+
         while True:
             sleep(self.POLLING_RATE)
+
+            # DEBUGGING: Add detailed logging for each polling cycle
+            logging.info("=" * 80)
+            logging.info("DEBUGGING POLLING CYCLE IN xcelMeter.py run()")
+            logging.info("=" * 80)
+            logging.info(f"Starting new polling cycle")
+            logging.info(f"Processing {len(self.endpoints)} endpoints")
+            logging.info("=" * 80)
+
             for obj in self.endpoints:
+                # DEBUGGING: Add detailed logging for each endpoint
+                logging.info("=" * 80)
+                logging.info(
+                    "DEBUGGING ENDPOINT PROCESSING IN xcelMeter.py run()")
+                logging.info("=" * 80)
+                logging.info(f"Processing endpoint: {obj.name}")
+                logging.info("=" * 80)
+
                 obj.run()
+
+                # DEBUGGING: Add detailed logging after endpoint processing
+                logging.info("=" * 80)
+                logging.info(
+                    "DEBUGGING AFTER ENDPOINT PROCESSING IN xcelMeter.py run()")
+                logging.info("=" * 80)
+                logging.info(f"Completed processing endpoint: {obj.name}")
+                logging.info("=" * 80)
+
+            # DEBUGGING: Add detailed logging after all endpoints processed
+            logging.info("=" * 80)
+            logging.info(
+                "DEBUGGING AFTER ALL ENDPOINTS PROCESSED IN xcelMeter.py run()")
+            logging.info("=" * 80)
+            logging.info("Completed processing all endpoints for this cycle")
+            logging.info("=" * 80)
 
