@@ -29,3 +29,4 @@
 
 - To change MQTT topic prefix, simply upadte the `env.template` file's `"MQTT_TOPIC_PREFIX"` under `"MQTT Configuration"`
 - To change what you are pulling from smart meters, change `.yaml` files under `xcel_itron2mqtt>configs`
+- Tweak telegraph.conf file to ensure proper collection of data from MQTT server to write to InfluxDB (If you notice data is not coming into InfluxDB)
