@@ -28,3 +28,4 @@
 ### Tips for changing MQTT TOPIC
 
 - To change MQTT topic prefix, simply upadte the `env.template` file's `"MQTT_TOPIC_PREFIX"` under `"MQTT Configuration"`
+- To change what you are pulling from smart meters, change `.yaml` files under `xcel_itron2mqtt>configs`
