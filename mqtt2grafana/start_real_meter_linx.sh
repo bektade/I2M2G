@@ -11,7 +11,7 @@ echo ""
 
 # Step 1: Check if SSL keys exist
 
-echo "Step 1: Checking for existing SSL keys..."
+echo "Checking for existing SSL keys..."
 KEY_OUTPUT=$(./scripts/generate_keys.sh -p)
 
 if [[ -n "$KEY_OUTPUT" ]]; then
@@ -29,7 +29,7 @@ fi
 
 # Step 3: Create .env file
 echo ""
-echo "Step 4: Creating .env file..."
+echo "Creating .env file..."
 ./scripts/setup_env.sh
 
 # Update .env file with detected IP
@@ -41,17 +41,24 @@ echo "✅ Updated SIMULATOR_IP in .env file: $HOST_IP"
 # Step 5: Start services in background
 echo ""
 echo ""
-echo "Step 5: Starting Docker services in background..."
+echo "Starting Docker services in background..."
 docker compose --profile real_meter up --build -d
 
 # Wait a moment for services to start
 echo "Waiting for services to start..."
 sleep 5
 
-# Step 6: Show logs
+
 echo ""
 echo ""
-echo "Step 6: Showing logs from xcel_itron2mqtt_I2M2G..."
+echo "Services started, ...Showing logs from xcel_itron2mqtt_I2M2G..."
+echo ""
+echo ""
 echo "Press Ctrl+C to stop viewing logs (services will continue running in background)"
+echo ""
+echo ""
+echo "END of start_real_meter_linx.sh"
 echo "=========================================="
+echo ""
+echo ""
 docker logs -f xcel_itron2mqtt_I2M2G 
