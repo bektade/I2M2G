@@ -98,25 +98,19 @@ class xcelMeter():
         # Send homeassistant a new device config for the meter
         self.send_mqtt_config()
 
-        # logging.info("METER SETUP => ... based on the swVER of the meter in Device configuration!")
-        # logging.info("====================================================================================\n\n\n")
-
         # The swVer will dictate which version of endpoints we use
         endpoints_file_ver = 'default' if str(self._swVer) != '3.2.39' else '3_2_39'
-
-        # logger.info(f"__init__ xcelMeter() => Using endpoints file: endpoints_{endpoints_file_ver}.yaml\n")
 
 
         # List to store our endpoint objects in
         self.endpoints_list = self.load_endpoints(f'configs/endpoints_{endpoints_file_ver}.yaml')
-        # logger.info(f"__init__ xcelMeter() => Loaded endpoints: {self.endpoints_list}\n")
+
 
         # create endpoints from list
         self.endpoints = self.create_endpoints(self.endpoints_list, self.device_info)
-        # logger.info(f"__init__ xcelMeter() => Created endpoints: {self.endpoints}\n")
+
 
         # ready to go
-        # logger.info(f"__init__ xcelMeter() => Meter {self.name} setup complete and ready to run!\n\n\n\n\n\n")
         self.initalized = True
 
     def get_hardware_details(self, hw_info_url: str, hw_names: list) -> dict:
@@ -126,7 +120,7 @@ class xcelMeter():
 
         Returns: dict, {<element name>: <meter response>}
         """
-        logging.info(f"L129 xcelMeter()  => get_hardware_details() =>Build query url {self.url}{hw_info_url}\n")
+        logging.info(f"L123 xcelMeter()  => get_hardware_details() =>Build query url {self.url}{hw_info_url}\n")
         query_url = f'{self.url}{hw_info_url}'
         # query the hw specs endpoint
         x = self.requests_session.get(query_url, verify=False, timeout=4.0)
@@ -151,7 +145,7 @@ class xcelMeter():
         # Mount our adapter to the domain
         session.mount('https://{ip_address}', CCM8Adapter())
 
-        logging.info(f"L154 xcelMeter() => setup_session() => Created a new requests session for {ip_address} with certs {creds} at {session}\n")
+        logging.info(f"L148 xcelMeter() => setup_session() => Created a new requests session for {ip_address} with certs {creds}\n")
 
         return session
 
@@ -203,7 +197,7 @@ class xcelMeter():
         """
         def on_connect(client, userdata, flags, rc):
             if rc == 0:
-                logging.info("L206 xcelMeter() => setup_mqtt(): => Connected to MQTT Broker! ...\n\n")
+                logging.info("L200 xcelMeter() => setup_mqtt(): => Connected to MQTT Broker! ...\n")
             else:
                 logging.error("Failed to connect, return code %d\n", rc)
 
@@ -240,8 +234,6 @@ class xcelMeter():
         
         Returns: None
         """
-        # logger.info("Inside send_mqtt_config() xcelMeter.py L 237")
-        # {self.name.replace(" ", "_").lower() creates xcel_itron_5 from Xcel Itron 5 to make homeassistant/device/energy/xcel_itron_5
         
         
         state_topic = f'homeassistant/device/energy/{self.name.replace(" ", "_").lower()}' 
@@ -255,48 +247,14 @@ class xcelMeter():
             }
         config_dict.update(self.device_info)
         config_json = json.dumps(config_dict)
-       
-        # logging.info(f"Device configuration : {json.dumps(config_dict, indent=2)}\n")
-       
-        # logging.info(f"Publishing to topic: {state_topic}")  # <-- Log topic before publish
+        logging.info(f"L250 XcelMeter() => Publishing device config to topic: {state_topic} with payload: {config_json}\n")
 
-        # # JUST NEED TO CUSTOMIZE PUBLISH METHOD!
-
-        # logging.info(f"Ready to publsih ... ")
-        logging.info(f"L266 XcelMeter() => Publishing to topic: {state_topic} with payload: {config_json}\n")
-
-        # # DEBUGGING: Add detailed logging before MQTT publish
-        # logging.info("=" * 80)
-        # logging.info(
-        #     "DEBUGGING MQTT PUBLISH IN xcelMeter.py send_mqtt_config()")
-        # logging.info("=" * 80)
-        # logging.info(f"MQTT Client object: {self.mqtt_client}")
-        # logging.info(
-        #     f"MQTT Client connected: {self.mqtt_client.is_connected()}")
-        # logging.info(
-        #     f"Topic type: {type(state_topic)}, Topic value: '{state_topic}'")
-        # logging.info(
-        #     f"Payload type: {type(config_json)}, Payload value: '{config_json}'")
-        # logging.info(f"Payload length: {len(config_json)} characters")
-        # logging.info("=" * 80)
 
         # mqtt client just takes topic and payload and then publishes to the MQTT server!!!
         publish_result = self.mqtt_client.publish(
             state_topic, str(config_json))
 
-        # DEBUGGING: Add detailed logging after MQTT publish
-        # logging.info("=" * 80)
-        # logging.info("MQTT PUBLISH RESULT IN xcelMeter.py send_mqtt_config()")
-        # logging.info("=" * 80)
-        # logging.info(f"Publish result object: {publish_result}")
-        # logging.info(f"Publish result type: {type(publish_result)}")
-        # logging.info(f"Publish result rc: {publish_result.rc}")
-        # logging.info(f"Publish result mid: {publish_result.mid}")
-        # logging.info(
-        #     f"Publish result is_published: {publish_result.is_published()}")
-        # logging.info("=" * 80)
 
-        # logging.info(f"device configuration published to MQTT topic successfully!\n\n\n")
 
     def run(self) -> None:
         """
@@ -306,52 +264,11 @@ class xcelMeter():
 
         Returns: None
         """
-        # DEBUGGING: Add detailed logging for run method
-        # logging.info("=" * 80)
-        # logging.info("DEBUGGING RUN METHOD IN xcelMeter.py")
-        # logging.info("=" * 80)
-        # logging.info(f"Meter name: {self.name}")
-        # logging.info(f"Polling rate: {self.POLLING_RATE}")
-        # logging.info(f"Number of endpoints: {len(self.endpoints)}")
-        # logging.info(
-        #     f"Endpoints: {[endpoint.name for endpoint in self.endpoints]}")
-        # logging.info("=" * 80)
 
         while True:
             sleep(self.POLLING_RATE)
 
-            # DEBUGGING: Add detailed logging for each polling cycle
-            # logging.info("=" * 80)
-            # logging.info("DEBUGGING POLLING CYCLE IN xcelMeter.py run()")
-            # logging.info("=" * 80)
-            # logging.info(f"Starting new polling cycle")
-            # logging.info(f"Processing {len(self.endpoints)} endpoints")
-            # logging.info("=" * 80)
-
             for obj in self.endpoints:
-                # DEBUGGING: Add detailed logging for each endpoint
-                # logging.info("=" * 80)
-                # logging.info(
-                #     "DEBUGGING ENDPOINT PROCESSING IN xcelMeter.py run()")
-                # logging.info("=" * 80)
-                # logging.info(f"Processing endpoint: {obj.name}")
-                # logging.info("=" * 80)
-
                 obj.run()
 
-                # DEBUGGING: Add detailed logging after endpoint processing
-                # logging.info("=" * 80)
-                # logging.info(
-                #     "DEBUGGING AFTER ENDPOINT PROCESSING IN xcelMeter.py run()")
-                # logging.info("=" * 80)
-                # logging.info(f"Completed processing endpoint: {obj.name}")
-                # logging.info("=" * 80)
-
-            # DEBUGGING: Add detailed logging after all endpoints processed
-            # logging.info("=" * 80)
-            # logging.info(
-            #     "DEBUGGING AFTER ALL ENDPOINTS PROCESSED IN xcelMeter.py run()")
-            # logging.info("=" * 80)
-            # logging.info("Completed processing all endpoints for this cycle")
-            # logging.info("=" * 80)
 
