@@ -75,11 +75,11 @@ echo "   ✅ Generated secure token: ${INFLUXDB_TOKEN}"
 
 
 
-echo ""
-echo "LOGGING CONFIGURATION"
-echo "----------------------------"
+# echo ""
+# echo "LOGGING CONFIGURATION"
+# echo "----------------------------"
 
-prompt_secure "LOGLEVEL" "DEBUG" "Logging level (DEBUG, INFO, WARNING, ERROR)"
+# prompt_secure "LOGLEVEL" "DEBUG" "Logging level (DEBUG, INFO, WARNING, ERROR)"
 
 echo ""
 echo "✅ .env SETUP COMPLETE!"
