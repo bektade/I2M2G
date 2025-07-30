@@ -1,4 +1,4 @@
-## I2M2G : Xcel Smart Meter Monitoring using Grafana ( for 2 meters)
+## I2M2G v3.0 :  Support 2 meters
 
 > This is a branch frm master, created to fix the current issue in the master branch ( UNABLE TO PUBLISH TO MQTT TOPIC).
 > Thus this branch is only to work with real meter (Option A)

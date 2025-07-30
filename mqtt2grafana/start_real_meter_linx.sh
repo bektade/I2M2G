@@ -38,6 +38,13 @@ sed -i.bak "s/^SIMULATOR_IP=.*/SIMULATOR_IP=${HOST_IP}/" .env
 rm -f .env.bak
 echo "✅ Updated SIMULATOR_IP in .env file: $HOST_IP"
 
+# Step 4: Multi-meter setup ready
+echo ""
+echo "Multi-meter setup configured for 2 meters:"
+echo "  - Meter 1: Main House Meter (10.28.10.181:8081)"
+echo "  - Meter 2: Garage Meter (10.28.10.182:8081)"
+echo "✅ Docker-compose.yml and telegraf.conf configured for 2 meters"
+
 # Step 5: Start services in background
 echo ""
 echo ""
@@ -51,7 +58,7 @@ sleep 5
 
 echo ""
 echo ""
-echo "Services started, ...Showing logs from xcel_itron2mqtt_I2M2G..."
+echo "Services started, showing logs from both meters..."
 echo ""
 echo ""
 echo "Press Ctrl+C to stop viewing logs (services will continue running in background)"
@@ -61,4 +68,5 @@ echo "END of start_real_meter_linx.sh"
 echo "=========================================="
 echo ""
 echo ""
-docker logs -f xcel_itron2mqtt_I2M2G 
+# Show logs from both meters
+docker logs -f xcel_itron2mqtt_meter_001_I2M2G xcel_itron2mqtt_meter_002_I2M2G 

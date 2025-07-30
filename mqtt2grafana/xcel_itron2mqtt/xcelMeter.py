@@ -49,7 +49,7 @@ class xcelMeter():
     def __init__(self, name: str, ip_address: str, port: int, creds: Tuple[str, str]):
         self.name = name
         self.POLLING_RATE = 5.0
-        self.ip_address = "10.28.10.181"
+        self.ip_address = ip_address
         # Base URL used to query the meter
         self.url = f'https://{ip_address}:{port}'
 

@@ -1,0 +1,7 @@
+this repo is perfectly working ... gets started by running @start_real_meter_linx.sh which sets up .env and starts docker services 
+
+As shown on main.py line 91, the program accepts ip_address and port for a smart meter and gets data from smart meter using ssl keys in certs folder. 
+
+once data is received from the meter over SSL and wifi, it gets published to MQTT. then telegraph uses @telegraf.conf to write the data to influxDB. Finally grafana connects to influx db and visualizes real time data. 
+
+now i WANT TO SCALE this pro

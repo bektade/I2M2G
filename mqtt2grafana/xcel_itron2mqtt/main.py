@@ -79,9 +79,13 @@ def mDNS_search_for_meter() -> str | int:
 
 
 if __name__ == '__main__':
+    # Get meter configuration from environment variables
+    meter_id = os.getenv('METER_ID', 'meter_001')
+    meter_name = os.getenv('METER_NAME', INTEGRATION_NAME)
+
     if os.getenv('METER_IP') and os.getenv('METER_PORT'):
         ip_address = os.getenv('METER_IP')
-        port_num = os.getenv('METER_PORT')
+        port_num = int(os.getenv('METER_PORT'))
     else:
         ip_address, port_num = mDNS_search_for_meter()
         # ip_address, port_num = "10.28.10.181", 8081
@@ -91,7 +95,9 @@ if __name__ == '__main__':
     ip_address, port_num = "10.28.10.182", 8081
 
     # create a new xcelMeter instance i.e. initialize with the ip address, port, and credentials
-    meter = xcelMeter(INTEGRATION_NAME, ip_address, port_num, creds)
+    # Use meter_id to create unique integration name
+    integration_name = f"{INTEGRATION_NAME}_{meter_id}"
+    meter = xcelMeter(integration_name, ip_address, port_num, creds)
 
     """
     meter.setup() will do the following:
