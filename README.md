@@ -1,7 +1,6 @@
-## I2M2G : Xcel Smart Meter Monitoring using Grafana
+## I2M2G v2.0: Work with single meter. 
 
-> This is a branch frm master, created to fix the current issue in the master branch ( UNABLE TO PUBLISH TO MQTT TOPIC).
-> Thus this branch is only to work with real meter (Option A)
+> This branch is for working with single meter. 
 
 ## Quick start for Real Meter ( OPTION A)
 
@@ -17,16 +16,3 @@
 4.  Login to InfluxDB at http://localhost:8086 & to Grafana at http://localhost:8086
 5.  connect grafana with InfluxDB [(follow instruction here )](/mqtt2grafana/docs/connect_influxdb_2_grafana.md)
 6.  stop container and delete everything run `./remove_real_meter.sh`
-
-### Tips
-
-> - Find username and passwords in .env file for both InfluxDB & Grafana
-> - copy an API token of InfluxDB from `.env` file.
-> - use `DataExplorer` feature in InfluxDB UI
-> - use `query Builder` feature to generate Flux queries and use the query to build a dashborad in grafana.
-
-### Tips for changing MQTT TOPIC
-
-- To change MQTT topic prefix, simply upadte the `env.template` file's `"MQTT_TOPIC_PREFIX"` under `"MQTT Configuration"`
-- To change what you are pulling from smart meters, change `.yaml` files under `xcel_itron2mqtt>configs`
-- Tweak telegraph.conf file to ensure proper collection of data from MQTT server to write to InfluxDB (If you notice data is not coming into InfluxDB)
