@@ -12,7 +12,9 @@ echo "Starting cleanup process..."
 echo "Step 1: Stopping and removing containers..."
 docker compose down -vv
 
- docker kill xcel_itron2mqtt_I2M2G
+docker kill meter_001_97383494CF
+docker kill meter_002_9C5DECA311
+
 
 # Step 2: Remove unused networks
 echo "Step 2: Removing unused networks..."

@@ -69,4 +69,4 @@ echo "=========================================="
 echo ""
 echo ""
 # Show logs from both meters
-docker logs -f xcel_itron2mqtt_meter_001_I2M2G xcel_itron2mqtt_meter_002_I2M2G 
+docker logs -f meter_001_97383494CF

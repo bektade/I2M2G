@@ -18,7 +18,7 @@ services:
 
   # Xcel Itron2MQTT Application for Meter 1 (Main House)
   xcel_itron2mqtt_meter_001:
-    container_name: xcel_itron2mqtt_meter_001_I2M2G
+    container_name: meter_001_97383494CF
     hostname: xcel_itron2mqtt_host_meter_001_I2M2G
     build:
       context: .
@@ -39,7 +39,7 @@ services:
       - METER_IP=10.28.10.181
       - METER_PORT=8081
       - METER_ID=meter_001
-      - METER_NAME=Main House Meter
+      - METER_LFDI=97383494CF3488EA15FF7F62666541736C123BAC
       - CERT_PATH=${CERT_PATH}
       - KEY_PATH=${KEY_PATH}
       # logging configuration
@@ -52,7 +52,7 @@ services:
 
   # Xcel Itron2MQTT Application for Meter 2 (Garage)
   xcel_itron2mqtt_meter_002:
-    container_name: xcel_itron2mqtt_meter_002_I2M2G
+    container_name: meter_002_9C5DECA311
     hostname: xcel_itron2mqtt_host_meter_002_I2M2G
     build:
       context: .
@@ -73,7 +73,7 @@ services:
       - METER_IP=10.28.10.182
       - METER_PORT=8081
       - METER_ID=meter_002
-      - METER_NAME=Garage Meter
+      - METER_LFDI=9C5DECA311D437471442C96DE36CBB052F908ABB
       - CERT_PATH=${CERT_PATH}
       - KEY_PATH=${KEY_PATH}
       # logging configuration
