@@ -91,8 +91,13 @@ if __name__ == '__main__':
         # ip_address, port_num = "10.28.10.181", 8081
     creds = look_for_creds()
 
-    # METER CONFIGURATION
-    ip_address, port_num = "10.28.10.182", 8081
+    # METER CONFIGURATION - Use environment variables for IP and port
+    if os.getenv('METER_IP') and os.getenv('METER_PORT'):
+        ip_address = os.getenv('METER_IP')
+        port_num = int(os.getenv('METER_PORT'))
+    else:
+        # Fallback to mDNS search if no environment variables are set
+        ip_address, port_num = mDNS_search_for_meter()
 
     # create a new xcelMeter instance i.e. initialize with the ip address, port, and credentials
     # Use meter_id to create unique integration name
