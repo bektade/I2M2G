@@ -3,6 +3,11 @@
 > This is a branch frm master, created to fix the current issue in the master branch ( UNABLE TO PUBLISH TO MQTT TOPIC).
 > Thus this branch is only to work with real meter (Option A)
 
+### Grafana visual for two meters:
+
+ <img src="mqtt2grafana/docs/img/m_1_2.png" alt="" width="100%"/>
+
+
 ## Quick start for Real Meter 
 
 1.  clone the repo
