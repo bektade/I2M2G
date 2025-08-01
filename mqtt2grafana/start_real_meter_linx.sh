@@ -69,4 +69,4 @@ echo "=========================================="
 echo ""
 echo ""
 # Show logs from both meters
-docker logs -f meter_001_97383494CF
+docker logs -f meter_001

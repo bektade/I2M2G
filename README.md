@@ -6,6 +6,9 @@
 
  <img src="mqtt2grafana/docs/img/m_1_2.png" alt="" width="100%"/>
 
+#### Docker ps
+  <img src="mqtt2grafana/docs/img/2m.png" alt="" width="100%"/>
+
 
 ## Quick start for Real Meter 
 

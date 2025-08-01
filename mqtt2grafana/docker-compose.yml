@@ -18,7 +18,7 @@ services:
 
   # Xcel Itron2MQTT Application for Meter 1 (Main House)
   xcel_itron2mqtt_meter_001:
-    container_name: meter_001_97383494CF
+    container_name: meter_001
     hostname: xcel_itron2mqtt_host_meter_001_I2M2G
     build:
       context: .
@@ -52,7 +52,7 @@ services:
 
   # Xcel Itron2MQTT Application for Meter 2 (Garage)
   xcel_itron2mqtt_meter_002:
-    container_name: meter_002_9C5DECA311
+    container_name: meter_002
     hostname: xcel_itron2mqtt_host_meter_002_I2M2G
     build:
       context: .
