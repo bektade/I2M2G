@@ -1,4 +1,4 @@
-## I2M2G v2.0 - Single Meter Simulator
+## I2M2G - Single Meter Simulator
 
 This application connects to a smart meter simulator agent running in Energy Launchpad. The `meter2mqtt` service queries the simulator every 5 seconds to collect power usage data, which is then published to MQTT for real-time visualization in Grafana.
 

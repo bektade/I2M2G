@@ -192,7 +192,8 @@ class xcelEndpoint():
             except Exception as e:
                 print(f"Failed to reconnect: {e}")
                 return -1
-
+        logging.info(f"L195 xcelEndPoint() => mqtt_publish() Published message: '{message}' at '{topic}'\n")
+        logging.debug(f"L195 xcelEndPoint() => mqtt_publish() Published message: '{message}' at '{topic}'\n")
         result = self.client.publish(topic, str(message), retain=retain)
         
         # Check if publish was successful

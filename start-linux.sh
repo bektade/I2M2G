@@ -12,7 +12,7 @@ if [ -z "$HOST_IP" ]; then
     echo "Could not determine IP address from default interface. Please check your network connection."
     exit 1
 fi
-echo "Retrieved Host IP: $HOST_IP"
+echo "Retrieved Host IP for connecting with simulator: $HOST_IP"
 
 # Check if .env exists
 if [ ! -f ".env" ]; then

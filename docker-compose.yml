@@ -31,9 +31,6 @@ services:
     depends_on:
       mqtt:
         condition: service_healthy
-    volumes:
-      - ./meter2mqtt/certs:/opt/meter2mqtt/certs
-      - ./meter2mqtt/configs:/opt/meter2mqtt/configs
     networks:
       - i2m2g_net
     environment:
