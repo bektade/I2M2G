@@ -10,7 +10,7 @@ from tenacity import retry, stop_after_attempt, before_sleep_log, wait_exponenti
 
 logger = logging.getLogger(__name__)
 
-# Prefix that appears on all of the XML elements
+# Prefix that appears on all of the XML elements,
 IEEE_PREFIX = '{urn:ieee:std:2030.5:ns}'
 
 class xcelEndpoint():

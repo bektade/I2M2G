@@ -30,7 +30,7 @@ def get_meter_simulator_config() -> tuple:
     return ip_address, port, None
 
 if __name__ == '__main__':
-    # Get meter configuration (works for both Docker and local)
+    # Get meter simulator configuration 
     ip_address, port_num, creds = get_meter_simulator_config()
     
     # Create meter instance

@@ -2,7 +2,10 @@
 
 This application connects to a smart meter simulator agent running in Energy Launchpad. The `meter2mqtt` service queries the simulator every 5 seconds to collect power usage data, which is then published to MQTT for real-time visualization in Grafana.
 
-### step-1: Quick Start
+## Quick Start
+
+### step-1: start services
+
 
 **For macOS:**
 ```bash
@@ -12,6 +15,11 @@ This application connects to a smart meter simulator agent running in Energy Lau
 **For Linux:**
 ```bash
 ./start-linux.sh
+```
+
+**stop services:**
+```bash
+./stop.sh
 ```
 
 
