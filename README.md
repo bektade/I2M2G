@@ -2,6 +2,13 @@
 
 > This branch is for working with single meter. 
 
+#### Grafana Dashboard
+<img src="mqtt2grafana/docs/img/1m.png" alt="" width="100%"/>
+
+
+#### InfluxDB
+<img src="mqtt2grafana/docs/img/1m_i.png" alt="" width="100%"/>
+
 ## Quick start for Real Meter ( OPTION A)
 
 1.  clone the repo
