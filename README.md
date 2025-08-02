@@ -9,7 +9,9 @@ The application on this repo has many features. It enables to work with a real m
 To work with :
 
 - simulator checkout `feature/meter-simulator` branch.
+
 - single real meter checkout `feature/han-single-meter` branch.
+
 - two real meters checkout `feature/han-two-meters` branch.
 
 #### Grafana Dashbaord
