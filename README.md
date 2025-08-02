@@ -3,12 +3,16 @@
 [![Version](https://img.shields.io/badge/version-v3.0-blue.svg)](https://github.com/your-repo/I2M2G)
 [![Support](https://img.shields.io/badge/support-2%20meters-green.svg)](https://github.com/your-repo/I2M2G)
 
-> This is a branch frm master, created to fix the current issue in the master branch ( UNABLE TO PUBLISH TO MQTT TOPIC).
-> Thus this branch is only to work with real meter (Option A)
+This is a branch supports integrating data from two Itron smart meters. The two meters are described as `meter_001` and `meter_002` in `docker-compose.yml` file
 
-## Quick start for Real Meter
+## Quick start for 2 Meters
 
-1.  clone the repo
+1.  clone this branch:
+
+    ```
+    git clone -b feature/han-two-meters --single-branch <git url>
+    ```
+
 2.  Copy certs in mqtt2grafana folder
 
     > VERY IMPORTNAT : Add SSL keys in mqtt2grafana directory before doing anything. See the file structure below:
