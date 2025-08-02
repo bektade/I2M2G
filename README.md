@@ -1,17 +1,28 @@
-## I2M2G v2.0: Work with single meter. 
+## I2M2G : Itron2Mqtt2Grafana with Single meter
 
-> This branch is for working with single meter. 
+[![Version](https://img.shields.io/badge/version-v2.0-blue.svg)](https://github.com/your-repo/I2M2G)
+[![Support](https://img.shields.io/badge/support-1%20meter-red.svg)](https://github.com/your-repo/I2M2G)
+
+This is a branch supports integrating data from a single Itron smart meter. The configuration is setup in `docker-compose.yml` file in the `mqtt2grafana` directory.
 
 #### Grafana Dashboard
+
 <img src="mqtt2grafana/docs/img/1m.png" alt="" width="100%"/>
 
-
 #### InfluxDB
+
 <img src="mqtt2grafana/docs/img/1m_i.png" alt="" width="100%"/>
 
-## Quick start for Real Meter ( OPTION A)
+## Quick start
 
-1.  clone the repo
+1.  clone this branch
+
+    ```
+    # git clone -b <branch-name> --single-branch <URL>
+
+    git clone -b feature/han-single-meter --single-branch <URL>
+    ```
+
 2.  Copy certs in mqtt2grafana folder
 
     > VERY IMPORTNAT : Add SSL keys in mqtt2grafana directory before doing anything. See the file structure below:
