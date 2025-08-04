@@ -1,68 +1,129 @@
-## I2M2G - Meter Simulator
+## Xcel Itron2Grafana  - Fully automated Realtime Dashboard 
+
 
 [![Version](https://img.shields.io/badge/version-v1.0-teal.svg)](https://github.com/your-repo/I2M2G)
 [![Support](https://img.shields.io/badge/support-%20metersimulator-green.svg)](https://github.com/your-repo/I2M2G)
+
+
 
 This application connects to a smart meter simulator agent running in Energy Launchpad. The `meter2mqtt` service queries the simulator every 5 seconds to collect power usage data, which is then published to MQTT for real-time visualization in Grafana.
 
 ## Quick Start
 
-1. Git clone
+### 🚀 Streamlined Workflow (Recommended)
 
-   ```
-   # clone this branch
-   git clone -b <branch-name> --single-branch <URL>
+**Step 1: Clone Required Repositories**
 
-   # clone energy launchpad (repo)
-   git clone <energy launchpad repo url>
-   ```
+```bash
+# Clone this I2M2G repository
+git clone -b <branch-name> --single-branch <URL>
 
-2. Start services
+# Clone Energy Launchpad repository (for simulator)
+git clone <energy launchpad repo url>
+```
 
-- Start meter simulator:
+**Step 2: Start the Meter Simulator**
 
-  ```
-  # cd to launchped dir
-  cd launchpad
+```bash
+# Navigate to launchpad directory
+cd launchpad
 
-  # start simulator
-  docker compose up
-  ```
+# Start the simulator
+docker compose up
+```
 
-- start I2M2G
+**Step 3: Start I2M2G Stack**
 
-  ```bash
-  # mac
-  ./start-mac.sh
-  ```
-
-  ```bash
-  # linux
-  ./start-linux.sh
-  ```
-
-3. Access Dashboards & connect Grafana with InfluxDB
-
-- You must manually connect Grafana to InfluxDB after startup. See [how to connect Grafana to InfluxDB](/mqtt2grafana/docs/connect_influxdb_2_grafana.md).
-
-  - **Grafana**: http://localhost:3000 (admin/admin)
-  - **InfluxDB**: http://localhost:8086 (admin/adminpassword)
-
-  > Note: Use the credentials from your .env file for InfluxDB connection. The default values are admin/adminpassword.
-
-  ### Tips
-
-  > - check if simulator is working at : `http://<your_host_IP>:8082/swagger/index.html`)
-  > - Find username and passwords in .env file for both InfluxDB & Grafana
-
-4. Cleaning up
-
-   ```bash
-   # stop I2m2G - run shell script
-
-   ./stop.sh
+```bash
+# Navigate back to I2M2G directory
+cd ../I2M2G
 
 
-   # stop simulator ( run inside launchpad dir)
-   docker compose down -vv
-   ```
+# Setup and start everything (detects OS automatically)
+make setup
+
+
+# Pause services (preserves data)
+make pause
+
+# Resume services
+make resume
+```
+
+
+
+
+**Step 4: Automatically Connect Grafana to InfluxDB and Create Dashboard**
+
+```bash
+# Automatically connect InfluxDB to Grafana and create power usage dashboard
+make connect-grafana
+```
+
+This will automatically connect InfluxDB to Grafana, setting up the data source with proper authentication, creates a customized Power Usage Dashboard with real-time visualization. 
+
+
+**Step 5: Access Dashboards**
+
+- **Grafana**: http://YOUR_HOST_IP:3000 (admin/admin)
+- **InfluxDB**: http://YOUR_HOST_IP:8086 (admin/adminpassword)
+
+
+
+**Step 6: Pause/Resume or Cleanup**
+
+**Pause/Resume (preserves all data):**
+```bash
+# Pause services 
+make pause
+
+# Resume services later
+make resume
+```
+
+**Complete Cleanup (deletes data and starts):**
+```bash
+# Stop I2M2G and clean everything
+make stop
+
+# Stop simulator (run inside launchpad dir)
+cd ../launchpad
+docker compose down -vv
+```
+
+**Note:** When services are paused, Grafana will show no data points for the time period when no data was being collected.
+
+
+## Additional commands 
+
+```bash
+# Show all available commands
+make help
+
+# Check status
+make status
+
+# Monitor the data flow
+make monitor
+
+# View logs
+make logs-meter    # meter2mqtt logs
+make logs-telegraf # telegraf logs
+make logs-influx   # influxdb logs
+
+# Stop and clean up
+make stop
+
+# Restart everything
+make restart
+
+# Complete cleanup (removes all data)
+make clean
+```
+
+
+### Tips
+
+  > - Check if simulator is working at: `http://<SIMULATOR_IP>:8082/swagger/index.html`
+  > - Find SIMULATOR_IP, username and passwords in .env file for both InfluxDB & Grafana
+  > - SIMULATOR_IP = Host IP

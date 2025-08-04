@@ -47,4 +47,14 @@ echo ""
 docker compose up --build -d
 
 sleep 5
+
+echo ""
+echo "=== Service Endpoints ==="
+echo "Grafana Dashboard: http://$HOST_IP:3000 (admin/admin)"
+echo "InfluxDB: http://$HOST_IP:8086 (admin/adminpassword)"
+echo "MQTT Broker: $HOST_IP:1883"
+echo ""
+echo "=== Meter2MQTT Logs ==="
+echo ""
+
 docker compose logs -f meter2mqtt 

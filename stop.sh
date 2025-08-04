@@ -12,24 +12,25 @@ echo "Starting cleanup process..."
 echo "Step 1: Stopping and removing containers..."
 docker compose down -vv
 
+# Step 2: Remove Docker volumes (including InfluxDB data)
+echo "Step 2: Removing Docker volumes..."
+docker volume prune -f
 
-# Step 2: Remove unused networks
-echo "Step 2: Removing unused networks..."
+# Step 3: Remove unused networks
+echo "Step 3: Removing unused networks..."
 docker network prune -f
 
-# Step 3: Clean up Docker system
-echo "Step 3: Cleaning up Docker system..."
+# Step 4: Clean up Docker system
+echo "Step 4: Cleaning up Docker system..."
 docker system prune -f
 
-# Step 4: Remove .env file if it exists
+# Step 5: Remove .env file if it exists
 if [ -f ".env" ]; then
-    echo "Step 4: Removing .env file..."
+    echo "Step 5: Removing .env file..."
     rm -f .env
 else
     echo "No .env file found, skipping removal."
 fi
 
-
-
 echo "=== Cleanup Complete ==="
-echo "All containers, networks, and unused Docker resources have been removed." 
+echo "All containers, networks, volumes, and unused Docker resources have been removed." 
