@@ -1,4 +1,4 @@
-## Itron2Grafana  -  Xcel Smart Meter Monitoring using fully automated realtime dashboard 
+## Itron2Grafana  -  Xcel Itron Meter Monitoring using fully automated realtime dashboard 
 
 [![Version](https://img.shields.io/badge/version-v3.0-blue.svg)](https://github.com/your-repo/I2M2G)
 [![Support](https://img.shields.io/badge/support-2%20meters-green.svg)](https://github.com/your-repo/I2M2G)
