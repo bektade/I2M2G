@@ -1,4 +1,4 @@
-## I2M2G : Xcel Smart Meter Monitoring using Grafana
+## Itron2Grafana  -  Xcel Itron Meter Monitoring using fully automated realtime dashboard 
 
 I2M2G stands for Itron to MTT to Grafana, which provides a complete solution for monitoring Xcel Energy smart meters using Grafana. This is an extension of [xcel_2iron2mqtt](https://github.com/zaknye/xcel_itron2mqtt) i.e. adding more components such as Telegraph listener to send mqtt messages into InfluxDB and then visualizes the data in real-time (updates every 5 sec) using Grafana.
 
