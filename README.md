@@ -8,7 +8,7 @@ This repository provides a fully automated, containerized solution for real-time
 
 It extends the original [xcel_itron2mqtt](https://github.com/zaknye/xcel_itron2mqtt) project by adding new features and streamlined automation.
 
-### ✨ New Features
+## ✨ New Features
 
 | Feature                       | Description                                                                                         |
 | ----------------------------- | --------------------------------------------------------------------------------------------------- |
