@@ -121,12 +121,12 @@ cat > /tmp/two-meter-dashboard.json << EOF
     "panels": [
       {
         "id": 1,
-        "title": "Meter 001 - Main House Power Demand",
+        "title": "Meter 001",
         "type": "timeseries",
         "targets": [
           {
             "refId": "A",
-            "query": "from(bucket: \"$INFLUXDB_INIT_BUCKET\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Inst_Demand_state\")\n  |> filter(fn: (r) => r[\"_field\"] == \"value\")\n  |> filter(fn: (r) => r[\"host\"] == \"telegraf-host\")\n  |> filter(fn: (r) => r[\"topic\"] == \"homeassistant/sensor/Instantaneous_Demand/value/state\")\n  |> filter(fn: (r) => r[\"meter_id\"] == \"meter_001\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+            "query": "from(bucket: \"$INFLUXDB_INIT_BUCKET\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Inst_Demand_state\")\n  |> filter(fn: (r) => r[\"_field\"] == \"value\")\n  |> filter(fn: (r) => r[\"host\"] == \"telegraf-host\")\n  |> filter(fn: (r) => r[\"topic\"] == \"xcel_itron5_meter_001/sensor/Instantaneous_Demand/value/state\")\n  |> filter(fn: (r) => r[\"meter_id\"] == \"meter_001\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
             "rawQuery": true,
             "datasource": {
               "type": "influxdb",
@@ -203,17 +203,17 @@ cat > /tmp/two-meter-dashboard.json << EOF
             "sort": "none"
           }
         },
-        "title": "Meter 001 - Main House Power Demand",
+        "title": "Meter 001",
         "type": "timeseries"
       },
       {
         "id": 2,
-        "title": "Meter 002 - Garage Power Demand",
+        "title": "Meter 002",
         "type": "timeseries",
         "targets": [
           {
             "refId": "A",
-            "query": "from(bucket: \"$INFLUXDB_INIT_BUCKET\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Inst_Demand_state\")\n  |> filter(fn: (r) => r[\"_field\"] == \"value\")\n  |> filter(fn: (r) => r[\"host\"] == \"telegraf-host\")\n  |> filter(fn: (r) => r[\"topic\"] == \"homeassistant/sensor/Instantaneous_Demand/value/state\")\n  |> filter(fn: (r) => r[\"meter_id\"] == \"meter_002\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
+            "query": "from(bucket: \"$INFLUXDB_INIT_BUCKET\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"Inst_Demand_state\")\n  |> filter(fn: (r) => r[\"_field\"] == \"value\")\n  |> filter(fn: (r) => r[\"host\"] == \"telegraf-host\")\n  |> filter(fn: (r) => r[\"topic\"] == \"xcel_itron5_meter_002/sensor/Instantaneous_Demand/value/state\")\n  |> filter(fn: (r) => r[\"meter_id\"] == \"meter_002\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> yield(name: \"last\")",
             "rawQuery": true,
             "datasource": {
               "type": "influxdb",
@@ -290,7 +290,7 @@ cat > /tmp/two-meter-dashboard.json << EOF
             "sort": "none"
           }
         },
-        "title": "Meter 002 - Garage Power Demand",
+        "title": "Meter 002",
         "type": "timeseries"
       }
     ],
@@ -338,8 +338,8 @@ if echo "$dashboard_response" | grep -q '"id"'; then
     echo ""
     echo "Dashboard features:"
     echo "  - Two separate panels for each meter"
-    echo "  - Meter 001 (Main House): 10.28.10.181"
-    echo "  - Meter 002 (Garage): 10.28.10.182"
+    echo "  - Meter 001"
+    echo "  - Meter 002"
     echo "  - Real-time power demand visualization"
     echo "  - Flux queries for accurate data filtering"
     echo "  - Auto-refresh every 5 seconds"
