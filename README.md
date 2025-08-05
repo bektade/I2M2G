@@ -1,21 +1,36 @@
-## Itron2Grafana  -  Xcel Itron Meter Monitoring using fully automated realtime dashboard 
+<img src="mqtt2grafana/docs/img/header.png" alt="Project Header" width="100%"/>
 
-I2M2G stands for Itron to MTT to Grafana, which provides a complete solution for monitoring Xcel Energy smart meters using Grafana. This is an extension of [xcel_2iron2mqtt](https://github.com/zaknye/xcel_itron2mqtt) i.e. adding more components such as Telegraph listener to send mqtt messages into InfluxDB and then visualizes the data in real-time (updates every 5 sec) using Grafana.
+---
 
-### Getting Started:
+# Automated Real-Time Itron Smart Meter Monitoring
 
-The application on this repo has many features. It enables to work with a real meter or a meter simulator agent. Checkout the branches depending on what you want to do.
+This repository provides a fully automated, containerized solution for real-time monitoring of Xcel Energy Itron smart meters using **MQTT**, **InfluxDB**, and **Grafana**.
 
-To work with :
+It extends the original [xcel_itron2mqtt](https://github.com/zaknye/xcel_itron2mqtt) project by adding new features and streamlined automation.
 
-- simulator checkout `feature/meter-simulator` branch.
+### ✨ New Features
 
-- single real meter checkout `feature/han-single-meter` branch.
+| Feature                       | Description                                                                                         |
+| ----------------------------- | --------------------------------------------------------------------------------------------------- |
+| **MQTT Data Ingestion**       | Reads smart meter data from an MQTT broker using a Telegraf listener.                               |
+| **InfluxDB Integration**      | Stores readings in a time-series database (InfluxDB) for efficient querying and analysis.           |
+| **Grafana Dashboards**        | Auto-configured dashboards for real-time data visualization (updates every 5 seconds).              |
+| **Multi-Meter Support**       | Supports monitoring of one or multiple physical smart meters.                                       |
+| **Simulator Support**         | Easily test and validate the pipeline using a built-in smart meter simulator.                       |
+| **Dockerized Deployment**     | All components (MQTT, Telegraf, InfluxDB, Grafana) are containerized using Docker for easy setup.   |
+| **Environment Configuration** | Centralized `.env` file for managing MQTT, database, and Grafana credentials.                       |
+| **Makefile Automation**       | Simplifies common tasks like setup, startup, and teardown using `make` commands and bash scripting. |
 
-- two real meters checkout `feature/han-two-meters` branch.
+## Getting Started
 
+To use a specific setup:
 
-## Architecture 
+- **Simulator**: switch to the `feature/meter-simulator` branch
+- **Single Real Meter**: switch to `feature/han-single-meter`
+- **Two Real Meters**: switch to `feature/han-two-meters`
+
+## Architecture
+
 <img src="mqtt2grafana/docs/img/arch.png" alt="" width="100%"/>
 
 #### Grafana Dashbaord
@@ -26,8 +41,7 @@ To work with :
 
  <img src="mqtt2grafana/docs/img/influx.png" alt="" width="100%"/>
 
-### Tips
+## Tips
 
-> - check if simulator is working at : `http://<your_host_IP>:8082/swagger/index.html`)
-> - Find username and passwords in .env file for both InfluxDB & Grafana
-
+- check if simulator is working at : `http://<your_host_IP>:8082/swagger/index.html`)
+- Find username and passwords in .env file for both InfluxDB & Grafana
