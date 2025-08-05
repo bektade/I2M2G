@@ -10,12 +10,12 @@ This application connects to a smart meter simulator agent running in Energy Lau
 ## Architecture 
 
  <img src="meter2mqtt/docs/img/arch.png" alt="" width="100%"/>
+
+### Grafana Dashbaord
   <img src="meter2mqtt/docs/img/Grafana.png" alt="" width="100%"/>
 
 
 ## Quick Start
-
-### 🚀 Streamlined Workflow (Recommended)
 
 **Step 1: Clone Required Repositories**
 
@@ -70,7 +70,7 @@ make pause
 make resume
 ```
 
-
+  > When services are paused, Grafana will show no data points for the time period when no data was being collected.
 
 
 
@@ -89,18 +89,18 @@ cd ../launchpad
 docker compose down -vv
 ```
 
-**Note:** When services are paused, Grafana will show no data points for the time period when no data was being collected.
 
 
-## Help & Tips 
+
+## Help
 
 ```bash
 # Show all available commands
 make help
-
 ```
 
-### Tips
+## Note :
+
 
   > - Check if simulator is working at: `http://<HOST_IP>:8082/swagger/index.html`
   > - Find SIMULATOR_IP, username and passwords in .env file for both InfluxDB & Grafana
