@@ -1,11 +1,16 @@
-## Itron2Grafana  -  Xcel Itron Meter Monitoring using fully automated realtime dashboard 
+<img src="mqtt2grafana/docs/img/header.png" alt="" width="100%"/>
+
+---
+
+## Automated Real-time Itron Smart Meter Monitoring
 
 [![Version](https://img.shields.io/badge/version-v2.0-blue.svg)](https://github.com/your-repo/I2M2G)
 [![Support](https://img.shields.io/badge/support-1%20meter-red.svg)](https://github.com/your-repo/I2M2G)
 
 This is a branch supports integrating data from a single Itron smart meter. The configuration is setup in `docker-compose.yml` file in the `mqtt2grafana` directory.
 
-## Architecture 
+## Architecture
+
 <img src="mqtt2grafana/docs/img/arch.png" alt="" width="100%"/>
 
 #### Grafana Dashboard
@@ -33,6 +38,7 @@ cd I2M2G/mqtt2grafana
 <img src="mqtt2grafana/docs/img/tree.jpg" alt="" width="60%"/>
 
 **Generate or check SSL Keys:**
+
 ```bash
 # Check if SSL keys exist
 make check-keys
@@ -47,13 +53,13 @@ make generate-keys
 # Setup environment and start everything
 make setup
 ```
+
 ```bash
 # Automatically connect InfluxDB to Grafana and create power usage dashboard
 make connect-grafana
 ```
 
-> `make connect-grafana` will automatically connect grafana with influxdb and cusomize the dashbaord. 
-
+> `make connect-grafana` will automatically connect grafana with influxdb and cusomize the dashbaord.
 
 **Access Dashboards**
 
@@ -62,8 +68,8 @@ After running `make setup`, the script will display the service endpoints using 
 - **Grafana**: http://YOUR_METER_IP:3000 (admin/admin)
 - **InfluxDB**: http://YOUR_METER_IP:8086 (admin/adminpassword)
 
-
 **Step 3: Pause/Resume or Cleanup**
+
 ```bash
 # Pause services (preserves data)
 make pause
@@ -75,21 +81,17 @@ make resume
 make clean
 ```
 
-## Help 
+## Help
+
 ```bash
 # Show all available commands
 make help
 ```
 
-
-
 **Note:** When services are paused, Grafana will show zero values for the time period when no data was being collected.
 
+## <!-- ---
 
-
-
-<!-- ---
----
 --- -->
 
 <!-- ### 📋 Manual Workflow (Legacy)
@@ -113,11 +115,3 @@ make help
 4.  Login to InfluxDB at http://localhost:8086 & to Grafana at http://localhost:8086
 5.  Manually connect grafana with InfluxDB [(follow instruction here )](/mqtt2grafana/docs/connect_influxdb_2_grafana.md)
 6.  stop container and delete everything run `./remove_real_meter.sh` -->
-
-
-
-
-
-
-
-
