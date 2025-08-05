@@ -1,4 +1,6 @@
  <img src="mqtt2grafana/docs/img/header.png" alt="" width="100%"/>
+ 
+ ---
 
 [![Version](https://img.shields.io/badge/version-v1.0-teal.svg)](https://github.com/your-repo/I2M2G)
 [![Support](https://img.shields.io/badge/support-%20metersimulator-green.svg)](https://github.com/your-repo/I2M2G)
