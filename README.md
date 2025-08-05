@@ -14,6 +14,10 @@ To work with :
 
 - two real meters checkout `feature/han-two-meters` branch.
 
+
+## Architecture 
+<img src="mqtt2grafana/docs/img/arch.png" alt="" width="100%"/>
+
 #### Grafana Dashbaord
 
   <img src="mqtt2grafana/docs/img/grafana.png" alt="" width="100%"/>
@@ -27,10 +31,3 @@ To work with :
 > - check if simulator is working at : `http://<your_host_IP>:8082/swagger/index.html`)
 > - Find username and passwords in .env file for both InfluxDB & Grafana
 
-## Architecture
-
-1. **Meter** Data Source
-2. **MQTT Broker** receives and routes messages to subscribers
-3. **Telegraf** collects data from MQTT topics and sends to InfluxDB
-4. **InfluxDB** stores time-series data for historical analysis
-5. **Grafana** visualizes real-time and historical data
