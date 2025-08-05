@@ -29,7 +29,11 @@ It extends the original [xcel_itron2mqtt](https://github.com/zaknye/xcel_itron2m
 
   <img src="mqtt2grafana/docs/img/grafana.png" alt="" width="100%"/>
 
-#### influxDB
+  <img src="mqtt2grafana/docs/img/grafana_b.png" alt="" width="100%"/>
+
+   <img src="mqtt2grafana/docs/img/1m.png" alt="" width="100%"/>
+
+#### InfluxDB
 
  <img src="mqtt2grafana/docs/img/influx.png" alt="" width="100%"/>
 
