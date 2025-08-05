@@ -78,7 +78,6 @@ make pause
 # Resume services
 make resume
 
-
 # Complete cleanup (removes all data)
 make clean
 ```
