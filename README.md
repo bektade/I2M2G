@@ -21,14 +21,6 @@ It extends the original [xcel_itron2mqtt](https://github.com/zaknye/xcel_itron2m
 | **Environment Configuration** | Centralized `.env` file for managing MQTT, database, and Grafana credentials.                       |
 | **Makefile Automation**       | Simplifies common tasks like setup, startup, and teardown using `make` commands and bash scripting. |
 
-## Getting Started
-
-To use a specific setup:
-
-- **Simulator**: switch to the `feature/meter-simulator` branch
-- **Single Real Meter**: switch to `feature/han-single-meter`
-- **Two Real Meters**: switch to `feature/han-two-meters`
-
 ## Architecture
 
 <img src="mqtt2grafana/docs/img/arch.png" alt="" width="100%"/>
@@ -41,7 +33,10 @@ To use a specific setup:
 
  <img src="mqtt2grafana/docs/img/influx.png" alt="" width="100%"/>
 
-## Tips
+## Getting Started
 
-- check if simulator is working at : `http://<your_host_IP>:8082/swagger/index.html`)
-- Find username and passwords in .env file for both InfluxDB & Grafana
+To use a specific setup:
+
+- **Simulator**: switch to the `feature/meter-simulator` branch
+- **Single Real Meter**: switch to `feature/han-single-meter`
+- **Two Real Meters**: switch to `feature/han-two-meters`
