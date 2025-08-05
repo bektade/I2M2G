@@ -10,16 +10,16 @@ It extends the original [xcel_itron2mqtt](https://github.com/zaknye/xcel_itron2m
 
 ## ✨ New Features
 
-| Feature                       | Description                                                                                         |
-| ----------------------------- | --------------------------------------------------------------------------------------------------- |
-| **MQTT Data Ingestion**       | Reads smart meter data from an MQTT broker using a Telegraf listener.                               |
-| **InfluxDB Integration**      | Stores readings in a time-series database (InfluxDB) for efficient querying and analysis.           |
-| **Grafana Dashboards**        | Auto-configured dashboards for real-time data visualization (updates every 5 seconds).              |
-| **Multi-Meter Support**       | Supports monitoring of one or multiple physical smart meters.                                       |
-| **Simulator Support**         | Easily test and validate the pipeline using a built-in smart meter simulator.                       |
-| **Dockerized Deployment**     | All components (MQTT, Telegraf, InfluxDB, Grafana) are containerized using Docker for easy setup.   |
-| **Environment Configuration** | Centralized `.env` file for managing MQTT, database, and Grafana credentials.                       |
-| **Makefile Automation**       | Simplifies common tasks like setup, startup, and teardown using `make` commands and bash scripting. |
+| Feature                       | Description                                                                                    |
+| ----------------------------- | ---------------------------------------------------------------------------------------------- |
+| **MQTT Data Ingestion**       | Reads smart meter data from an MQTT using a Telegraf.                                          |
+| **InfluxDB Integration**      | Store readings in a time-series database (InfluxDB) for querying and analysis.                 |
+| **Grafana Dashboards**        | Auto-configure dashboards for real-time data visualization (every 5 seconds).                  |
+| **Multi-Meter Support**       | Supports monitoring of one or multiple physical smart meters.                                  |
+| **Simulator Support**         | Supports working with Energy launchpad smart meter simulator agent.                            |
+| **Dockerized Deployment**     | All services (MQTT, Telegraf, InfluxDB, Grafana) are containerized using Docker.               |
+| **Environment Configuration** | Centralized `.env` file for managing MQTT, database, and Grafana credentials.                  |
+| **Makefile Automation**       | Simplified common tasks like setup, pause/resume, and teardown using `make` commands and bash. |
 
 ## Architecture
 
