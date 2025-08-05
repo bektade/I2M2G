@@ -88,17 +88,9 @@ make clean
 
 ### Tips
 
-- Find username and passwords in .env file for both InfluxDB & Grafana
-- Inside InfluxDB, Use `query Builder` feature to generate Flux queries and use the query to build a dashborad in grafana.
-
-
-- To change MQTT topic:
-    - Upadte the `env.template` file's `"MQTT_TOPIC_PREFIX"` under `"MQTT Configuration"`
-    - Upadte `telegraph.conf` with MQTT topics 
-
-- Update `.yaml` files under `xcel_itron2mqtt>configs` to configure meter end_points 
-
-
+- Find username and passwords in .env file for both InfluxDB & Grafana.
+- You can use InfluxDB's `query Builder` feature to generate Flux queries automatically and then use the query to build a dashborad in grafana.
+- Update `.yaml` files under `xcel_itron2mqtt>configs` to configure meter end_points. 
 
 
 ### Help
