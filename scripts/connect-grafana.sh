@@ -143,7 +143,7 @@ cat > /tmp/power-dashboard.json << EOF
               "axisLabel": "",
               "axisPlacement": "auto",
               "barAlignment": 0,
-              "drawStyle": "line",
+              "drawStyle": "bars",
               "fillOpacity": 100,
               "gradientMode": "opacity",
               "hideFrom": {
@@ -153,7 +153,7 @@ cat > /tmp/power-dashboard.json << EOF
               },
               "lineInterpolation": "solid",
               "lineWidth": 1,
-              "pointSize": 5,
+              "pointSize": 6,
               "scaleDistribution": {
                 "type": "linear"
               },
