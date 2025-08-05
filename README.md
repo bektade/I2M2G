@@ -1,9 +1,9 @@
  <img src="mqtt2grafana/docs/img/header.png" alt="" width="100%"/>
 
-## Xcel Itron Meter Monitoring using fully automated realtime dashboard
-
 [![Version](https://img.shields.io/badge/version-v1.0-teal.svg)](https://github.com/your-repo/I2M2G)
 [![Support](https://img.shields.io/badge/support-%20metersimulator-green.svg)](https://github.com/your-repo/I2M2G)
+
+## Fully Automated Itron smart meter monitoring
 
 This application connects to a smart meter simulator agent running in Energy Launchpad. The `meter2mqtt` service queries the simulator every 5 seconds to collect power usage data, which is then published to MQTT for real-time visualization in Grafana.
 
