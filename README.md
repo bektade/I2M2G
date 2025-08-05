@@ -7,7 +7,7 @@
 [![Version](https://img.shields.io/badge/version-v2.0-blue.svg)](https://github.com/your-repo/I2M2G)
 [![Support](https://img.shields.io/badge/support-1%20meter-red.svg)](https://github.com/your-repo/I2M2G)
 
-This is a branch supports integrating data from a single Itron smart meter. The configuration is setup in `docker-compose.yml` file in the `mqtt2grafana` directory.
+This branch supports integrating data from a single Itron smart meter. The configuration is setup in `docker-compose.yml` file in the `mqtt2grafana` directory.
 
 ## Architecture
 
