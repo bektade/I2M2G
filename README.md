@@ -7,7 +7,7 @@
 [![Version](https://img.shields.io/badge/version-v3.0-blue.svg)](https://github.com/your-repo/I2M2G)
 [![Support](https://img.shields.io/badge/support-2%20meters-green.svg)](https://github.com/your-repo/I2M2G)
 
-This is a branch supports integrating data from two Itron smart meters. The two meters are described as `meter_001` and `meter_002` in `docker-compose.yml` file.
+This branch supports integrating data from two Itron smart meters. The two meters are described as `meter_001` and `meter_002` in `docker-compose.yml` file.
 
 ## Architecture
 
