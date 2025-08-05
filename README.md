@@ -7,6 +7,12 @@
 
 This application connects to a smart meter simulator agent running in Energy Launchpad. The `meter2mqtt` service queries the simulator every 5 seconds to collect power usage data, which is then published to MQTT for real-time visualization in Grafana.
 
+## Architecture 
+
+ <img src="meter2mqtt/docs/img/arch.png" alt="" width="100%"/>
+  <img src="meter2mqtt/docs/img/Grafana.png" alt="" width="100%"/>
+
+
 ## Quick Start
 
 ### 🚀 Streamlined Workflow (Recommended)
@@ -36,43 +42,27 @@ docker compose up
 ```bash
 # Navigate back to I2M2G directory
 cd ../I2M2G
+```
 
+```bash
 
 # Setup and start everything (detects OS automatically)
 make setup
-
-
-# Pause services (preserves data)
-make pause
-
-# Resume services
-make resume
 ```
-
-
-
-
-**Step 4: Automatically Connect Grafana to InfluxDB and Create Dashboard**
 
 ```bash
 # Automatically connect InfluxDB to Grafana and create power usage dashboard
 make connect-grafana
 ```
+> `make connect-grafana` will automatically connect InfluxDB to Grafana, setting up the data source with proper authentication, creates a customized Power Usage Dashboard with real-time visualization. 
 
-This will automatically connect InfluxDB to Grafana, setting up the data source with proper authentication, creates a customized Power Usage Dashboard with real-time visualization. 
-
-
-**Step 5: Access Dashboards**
-
-- **Grafana**: http://YOUR_HOST_IP:3000 (admin/admin)
-- **InfluxDB**: http://YOUR_HOST_IP:8086 (admin/adminpassword)
+#### Access Dashboards: 
+>- **Grafana**: http://YOUR_HOST_IP:3000 (admin/admin)
+>- **InfluxDB**: http://YOUR_HOST_IP:8086 (admin/adminpassword)
 
 
-
-**Step 6: Pause/Resume or Cleanup**
-
-**Pause/Resume (preserves all data):**
 ```bash
+# Pause/Resume (preserves all data)
 # Pause services 
 make pause
 
@@ -80,10 +70,19 @@ make pause
 make resume
 ```
 
+
+
+
+
+
+**Step 4: Cleanup**
+
+
+
 **Complete Cleanup (deletes data and starts):**
 ```bash
 # Stop I2M2G and clean everything
-make stop
+make clean
 
 # Stop simulator (run inside launchpad dir)
 cd ../launchpad
@@ -93,36 +92,16 @@ docker compose down -vv
 **Note:** When services are paused, Grafana will show no data points for the time period when no data was being collected.
 
 
-## Additional commands 
+## Help & Tips 
 
 ```bash
 # Show all available commands
 make help
 
-# Check status
-make status
-
-# Monitor the data flow
-make monitor
-
-# View logs
-make logs-meter    # meter2mqtt logs
-make logs-telegraf # telegraf logs
-make logs-influx   # influxdb logs
-
-# Stop and clean up
-make stop
-
-# Restart everything
-make restart
-
-# Complete cleanup (removes all data)
-make clean
 ```
-
 
 ### Tips
 
-  > - Check if simulator is working at: `http://<SIMULATOR_IP>:8082/swagger/index.html`
+  > - Check if simulator is working at: `http://<HOST_IP>:8082/swagger/index.html`
   > - Find SIMULATOR_IP, username and passwords in .env file for both InfluxDB & Grafana
-  > - SIMULATOR_IP = Host IP
+
