@@ -4,7 +4,7 @@
 
 [![Support](https://img.shields.io/badge/support-1%20meter-red.svg)](https://github.com/your-repo/I2M2G)
 [![Support](https://img.shields.io/badge/support-2%20meters-green.svg)](https://github.com/your-repo/I2M2G)
-[![Support](https://img.shields.io/badge/support-%20metersimulator-green.svg)](https://github.com/your-repo/I2M2G)
+[![Support](https://img.shields.io/badge/support-%20metersimulator-blue.svg)](https://github.com/your-repo/I2M2G)
 
 # Automated Real-Time Itron Smart Meter Monitoring
 
