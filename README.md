@@ -1,4 +1,4 @@
- <img src="mqtt2grafana/docs/img/header.png" alt="" width="100%"/>
+ <img src="mqtt2grafana/docs/img/h2.png" alt="" width="100%"/>
  
  ---
 
