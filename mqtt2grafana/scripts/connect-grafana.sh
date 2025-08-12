@@ -186,8 +186,8 @@ cat > /tmp/power-dashboard.json << EOF
           "overrides": []
         },
         "gridPos": {
-          "h": 8,
-          "w": 12,
+          "h": 10,
+          "w": 25,
           "x": 0,
           "y": 0
         },
@@ -208,7 +208,7 @@ cat > /tmp/power-dashboard.json << EOF
       }
     ],
     "time": {
-      "from": "now-1h",
+      "from": "now-5m",
       "to": "now"
     },
     "timepicker": {},
