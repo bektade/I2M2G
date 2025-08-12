@@ -186,8 +186,8 @@ cat > /tmp/two-meter-dashboard.json << EOF
           "overrides": []
         },
         "gridPos": {
-          "h": 8,
-          "w": 12,
+          "h": 10,
+          "w": 25,
           "x": 0,
           "y": 0
         },
@@ -273,9 +273,9 @@ cat > /tmp/two-meter-dashboard.json << EOF
           "overrides": []
         },
         "gridPos": {
-          "h": 8,
-          "w": 12,
-          "x": 12,
+          "h": 10,
+          "w": 25,
+          "x": 25,
           "y": 0
         },
         "options": {
@@ -295,7 +295,7 @@ cat > /tmp/two-meter-dashboard.json << EOF
       }
     ],
     "time": {
-      "from": "now-1h",
+      "from": "now-5m",
       "to": "now"
     },
     "timepicker": {},
