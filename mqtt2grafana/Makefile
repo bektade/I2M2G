@@ -39,14 +39,12 @@ setup: ## Setup environment and start the complete real meter stack
 	@docker compose --profile real_meter up --build -d
 	@echo "Stack started successfully"
 	@if [ -f ".env" ]; then \
-		HOST_IP=$$(grep METER_IP .env | cut -d'=' -f2); \
+		HOST_IP=$$(grep SIMULATOR_IP .env | cut -d'=' -f2); \
 		echo "Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
 		echo "InfluxDB: http://$$HOST_IP:8086"; \
-		echo "MQTT: $$HOST_IP:1883"; \
 	else \
 		echo "Grafana: http://localhost:3000 (admin/admin)"; \
 		echo "InfluxDB: http://localhost:8086"; \
-		echo "MQTT: localhost:1883"; \
 	fi
 
 # Start the stack (assumes .env exists)
@@ -55,7 +53,7 @@ start: ## Start the Docker stack
 	@docker compose --profile real_meter up --build -d
 	@echo "Stack started successfully"
 	@if [ -f ".env" ]; then \
-		HOST_IP=$$(grep METER_IP .env | cut -d'=' -f2); \
+		HOST_IP=$$(grep SIMULATOR_IP .env | cut -d'=' -f2); \
 		echo "Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
 		echo "InfluxDB: http://$$HOST_IP:8086"; \
 		echo "MQTT: $$HOST_IP:1883"; \
