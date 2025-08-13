@@ -91,13 +91,14 @@ if echo "$response" | grep -q '"id"'; then
     echo "  - Query Language: Flux"
     echo "  - Organization: $INFLUXDB_INIT_ORG"
     echo "  - Default Bucket: $INFLUXDB_INIT_BUCKET"
+    echo " "
 else
     echo -e "${YELLOW}Warning: Data source might already exist or there was an issue${NC}"
     echo "Response: $response"
 fi
 
 # Get the data source ID for the dashboard
-echo "Getting data source ID..."
+echo "Getting data ..."
 datasource_response=$(curl -s -u "admin:admin" http://localhost:3000/api/datasources/name/InfluxDB)
 datasource_id=$(echo "$datasource_response" | grep -o '"id":[0-9]*' | cut -d':' -f2)
 
@@ -106,7 +107,6 @@ if [ -z "$datasource_id" ]; then
     exit 1
 fi
 
-echo "Data source ID: $datasource_id"
 
 # Create dashboard configuration with Flux query for power demand
 echo "Creating dashboard configuration with Flux query..."
@@ -244,24 +244,21 @@ if echo "$dashboard_response" | grep -q '"id"'; then
     dashboard_url=$(echo "$dashboard_response" | grep -o '"url":"[^"]*"' | cut -d'"' -f4)
     
     echo -e "${GREEN}Successfully created Power Usage Dashboard${NC}"
-    echo "Dashboard details:"
-    echo "  - Title: Power Usage Dashboard"
-    echo "  - ID: $dashboard_id"
-    echo "  - URL: http://localhost:3000$dashboard_url"
     echo ""
-    echo "Dashboard features:"
+    echo "Dashboard details & features:"
+    echo "  - Title: Power Usage Dashboard with meter simulator"
     echo "  - Real-time power demand visualization"
-    echo "  - Flux query for accurate data filtering"
     echo "  - Auto-refresh every 5 seconds"
-    echo "  - Watt unit display"
     echo ""
     echo "You can now access:"
     if [ -f ".env" ]; then
         HOST_IP=$(grep SIMULATOR_IP .env | cut -d'=' -f2)
         echo "  - Grafana: http://$HOST_IP:3000 (admin/admin)"
+        echo "  - Simulator: http://$HOST_IP:8082/swagger/index.html"
         echo "  - Dashboard: http://$HOST_IP:3000$dashboard_url"
     else
         echo "  - Grafana: http://localhost:3000 (admin/admin)"
+        echo "  - Simulator: http://localhost:8082/swagger/index.html"
         echo "  - Dashboard: http://localhost:3000$dashboard_url"
     fi
 else
