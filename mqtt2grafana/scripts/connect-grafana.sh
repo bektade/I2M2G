@@ -11,7 +11,7 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo "=== Auto-connecting InfluxDB to Grafana and Creating Two-Meter Dashboard ==="
+echo "=== L14 connect-grafana.sh ...==="
 
 # Check if .env file exists
 if [ ! -f ".env" ]; then
@@ -97,7 +97,7 @@ else
 fi
 
 # Get the data source ID for the dashboard
-echo "Getting data source ID..."
+echo "L100 connect-grafana.sh Getting data from source ID..."
 datasource_response=$(curl -s -u "admin:admin" http://localhost:3000/api/datasources/name/InfluxDB)
 datasource_id=$(echo "$datasource_response" | grep -o '"id":[0-9]*' | cut -d':' -f2)
 
@@ -106,10 +106,8 @@ if [ -z "$datasource_id" ]; then
     exit 1
 fi
 
-echo "Data source ID: $datasource_id"
-
 # Create dashboard configuration with two panels for two meters
-echo "Creating two-meter dashboard configuration..."
+echo "L110 connect-grafana.sh Creating two-meter dashboard configuration..."
 
 cat > /tmp/two-meter-dashboard.json << EOF
 {
@@ -331,23 +329,15 @@ if echo "$dashboard_response" | grep -q '"id"'; then
     dashboard_url=$(echo "$dashboard_response" | grep -o '"url":"[^"]*"' | cut -d'"' -f4)
     
     echo -e "${GREEN}Successfully created Two-Meter Power Usage Dashboard${NC}"
-    echo "Dashboard details:"
+    echo "Dashboard details & features :"
     echo "  - Title: Two-Meter Power Usage Dashboard"
-    echo "  - ID: $dashboard_id"
-    echo "  - URL: http://localhost:3000$dashboard_url"
-    echo ""
-    echo "Dashboard features:"
     echo "  - Two separate panels for each meter"
-    echo "  - Meter 001"
-    echo "  - Meter 002"
     echo "  - Real-time power demand visualization"
-    echo "  - Flux queries for accurate data filtering"
     echo "  - Auto-refresh every 5 seconds"
-    echo "  - Watt unit display"
     echo ""
     echo "You can now access:"
     if [ -f ".env" ]; then
-        HOST_IP=$(grep METER_IP .env | cut -d'=' -f2 | head -1)
+        HOST_IP=$(grep SIMULATOR_IP .env | cut -d'=' -f2 | head -1)
         echo "  - Grafana: http://$HOST_IP:3000 (admin/admin)"
         echo "  - Dashboard: http://$HOST_IP:3000$dashboard_url"
     else

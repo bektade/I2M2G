@@ -56,13 +56,30 @@ prompt_secure() {
     rm -f .env.bak
 }
 
-# # Prompt for Meter IP
-# echo ""
-# echo "🔌 METER CONFIGURATION (VERY IMPORTANT)"
-# echo "----------------------"
-# prompt_secure "METER_IP" "10.28.10.xx" "Meter IP address"
-# prompt_secure "METER_PORT" "8081" "Meter communication port"
 
+
+# Detect host IP address for Linux
+DEFAULT_IFACE=$(ip route | awk '/default/ {print $5}' | head -n 1)
+HOST_IP=$(ip -4 addr show "$DEFAULT_IFACE" | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -n 1)
+
+# Validate that we got an IP
+if [ -z "$HOST_IP" ]; then
+    echo "❌ Could not determine IP address. Please check your network connection."
+    exit 1
+fi
+
+# Update SIMULATOR_IP in .env file
+if [ -f .env ]; then
+    if grep -q "^SIMULATOR_IP=" .env; then
+        sed -i.bak "s/^SIMULATOR_IP=.*/SIMULATOR_IP=$HOST_IP/" .env
+    else
+        echo "SIMULATOR_IP=$HOST_IP" >> .env
+    fi
+    rm -f .env.bak
+else
+    echo "SIMULATOR_IP=$HOST_IP" > .env
+fi
+echo "✅ SIMULATOR_IP updated in .env file: $HOST_IP"
 
 
 # Generate a secure token for InfluxDB

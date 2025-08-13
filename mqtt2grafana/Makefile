@@ -39,16 +39,14 @@ setup: ## Setup environment and start the complete two-meter stack
 	@docker compose --profile real_meter up --build -d
 	@echo "Stack started successfully"
 	@if [ -f ".env" ]; then \
-		HOST_IP=$$(grep METER_IP .env | cut -d'=' -f2 | head -1); \
+		HOST_IP=$$(grep SIMULATOR_IP .env | cut -d'=' -f2 | head -1); \
 		echo "Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
-		echo "InfluxDB: http://$$HOST_IP:8086"; \
-		echo "MQTT: $$HOST_IP:1883"; \
-		echo "Meter 001 (Main House): 10.28.10.181"; \
-		echo "Meter 002 (Garage): 10.28.10.182"; \
+		echo "InfluxDB: http://$$HOST_IP:8086 (admin/adminpassword)"; \
+		echo "Meter 001 IP: 10.28.10.181"; \
+		echo "Meter 002 IP: 10.28.10.182"; \
 	else \
 		echo "Grafana: http://localhost:3000 (admin/admin)"; \
-		echo "InfluxDB: http://localhost:8086"; \
-		echo "MQTT: localhost:1883"; \
+		echo "InfluxDB: http://localhost:8086 (admin/adminpassword)"; \
 	fi
 
 # Start the stack (assumes .env exists)
@@ -57,16 +55,15 @@ start: ## Start the Docker stack
 	@docker compose --profile real_meter up --build -d
 	@echo "Stack started successfully"
 	@if [ -f ".env" ]; then \
-		HOST_IP=$$(grep METER_IP .env | cut -d'=' -f2 | head -1); \
+		HOST_IP=$$(grep SIMULATOR_IP .env | cut -d'=' -f2 | head -1); \
 		echo "Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
-		echo "InfluxDB: http://$$HOST_IP:8086"; \
+		echo "InfluxDB: http://$$HOST_IP:8086 (admin/adminpassword)"; \
 		echo "MQTT: $$HOST_IP:1883"; \
-		echo "Meter 001 (Main House): 10.28.10.181"; \
-		echo "Meter 002 (Garage): 10.28.10.182"; \
+		echo "Meter 001 : 10.28.10.181"; \
+		echo "Meter 002 : 10.28.10.182"; \
 	else \
 		echo "Grafana: http://localhost:3000 (admin/admin)"; \
-		echo "InfluxDB: http://localhost:8086"; \
-		echo "MQTT: localhost:1883"; \
+		echo "InfluxDB: http://localhost:8086 (admin/adminpassword)"; \
 	fi
 
 # Stop and clean up everything
