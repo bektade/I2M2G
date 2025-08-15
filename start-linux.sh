@@ -1,8 +1,4 @@
 #!/bin/bash
-
-echo "=== I2M2G Setup (Linux) ==="
-echo ""
-
 # Get the simulator IP from the default route interface (Linux)
 DEFAULT_IFACE=$(ip route | awk '/default/ {print $5}' | head -n 1)
 HOST_IP=$(ip -4 addr show "$DEFAULT_IFACE" | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -n 1)
@@ -12,11 +8,11 @@ if [ -z "$HOST_IP" ]; then
     echo "Could not determine IP address from default interface. Please check your network connection."
     exit 1
 fi
-echo "Retrieved Host IP for connecting with simulator: $HOST_IP"
+echo "  ✅ Retrieved Host IP for connecting with simulator: $HOST_IP"
 
 # Check if .env exists
 if [ ! -f ".env" ]; then
-    echo "Creating .env file from template..."
+    echo "  ✅ Creating .env file from template..."
     if [ -f "env.template" ]; then
         # Copy template and replace placeholder with retrieved host IP
         cp env.template .env
@@ -24,37 +20,46 @@ if [ ! -f ".env" ]; then
         rm -f .env.bak 2>/dev/null || true
         
         # Generate a secure token for InfluxDB
-        echo "🔑 Generating secure InfluxDB admin token..."
+        echo "  🔑 Generating secure InfluxDB admin token..."
         INFLUXDB_TOKEN=$(openssl rand -hex 32)
         sed -i.bak "s/^INFLUXDB_INIT_ADMIN_TOKEN=.*/INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}/" .env
         rm -f .env.bak 2>/dev/null || true
-        echo "   ✅ Generated secure token"
         
-        echo "✅ .env file created from env.template with Host IP: $HOST_IP"
+        
+        echo "  ✅ .env file created from env.template with Host IP: $HOST_IP"
     else
-        echo "❌ env.template file not found. Please create env.template with your configuration."
+        echo "  ❌ env.template file not found. Please create env.template with your configuration."
         exit 1
     fi
 else
-    echo "✅ .env file already exists"
+    echo "  ✅ .env file already exists"
 fi
 
+
+
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
 echo ""
-echo "=== Starting I2M2G ==="
-echo "This will start the complete monitoring stack."
+echo -e "${YELLOW}=== Starting Services ===${NC}"
 echo ""
 
 docker compose up --build -d
-
+echo ""
+echo "✅ Services started successfully"
 sleep 5
 
 echo ""
-echo "=== Service Endpoints ==="
-echo "Grafana Dashboard: http://$HOST_IP:3000 (admin/admin)"
-echo "InfluxDB: http://$HOST_IP:8086 (admin/adminpassword)"
-echo "MQTT Broker: $HOST_IP:1883"
+echo -e "${YELLOW}===Service Endpoints===${NC}"
 echo ""
-echo "=== Meter2MQTT Logs ==="
-echo ""
+echo "  🔗Grafana Dashboard: http://$HOST_IP:3000 (admin/admin)"
+echo "  🔗InfluxDB: http://$HOST_IP:8086 (admin/adminpassword)"
 
-docker compose logs -f meter2mqtt 
+echo ""
+echo ""
+echo -e "${YELLOW}=== 💡💡💡Tips💡💡💡 ===${NC}"
+echo ""
+echo "  run  'make log' to see logs from meter simulator"
+echo "  run  'make clean' to clean up everything"
+echo "  run  'make help' for more tips"
+echo ""
+echo ""

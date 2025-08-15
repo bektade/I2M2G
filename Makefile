@@ -18,7 +18,7 @@ endif
 
 # Show help
 help: ## Show this help message
-	@echo "=== I2M2G Project Management ==="
+	@echo "=== Help Menu for Meter Simulator : ==="
 	@echo ""
 	@echo "Available commands:"
 	@echo ""
@@ -28,27 +28,23 @@ help: ## Show this help message
 	@echo "Start script: $(START_SCRIPT)"
 	@echo ""
 
+GREEN=\033[0;32m
+YELLOW=\033[1;33m
+NC=\033[0m # No Color
+
 # Setup environment and start the stack
 setup: ## Setup environment and start the complete stack
-	@echo "=== Setting up I2M2G on $(PLATFORM) ==="
+	@echo "$(YELLOW)=== Setting up .env and Starting Services on $(PLATFORM) ===$(NC)"
 	@chmod +x $(START_SCRIPT)
 	@./$(START_SCRIPT)
 
-# Start the stack (assumes .env exists)
-start: ## Start the Docker stack
-	@echo "=== Starting I2M2G Stack ==="
-	@docker compose up --build -d
-	@echo "Stack started successfully"
-	@if [ -f ".env" ]; then \
-		HOST_IP=$$(grep SIMULATOR_IP .env | cut -d'=' -f2); \
-		echo "Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
-		echo "InfluxDB: http://$$HOST_IP:8086"; \
-		echo "MQTT: $$HOST_IP:1883"; \
-	else \
-		echo "Grafana: http://localhost:3000 (admin/admin)"; \
-		echo "InfluxDB: http://localhost:8086"; \
-		echo "MQTT: localhost:1883"; \
-	fi
+
+
+
+log: ## Show  meter service logs
+	@docker logs -f meter2mqtt
+
+
 
 # Stop and clean up everything
 stop: ## Stop and clean up all containers, networks, volumes, and .env
@@ -150,7 +146,8 @@ clean: ## Complete cleanup - removes all containers, networks, volumes, and .env
 	@docker network prune -f
 	@docker system prune -f
 	@rm -f .env
-	@echo "Complete cleanup finished"
+	@echo ""
+	@echo "	✅ cleanup Completed"
 
 # Quick status check
 check: ## Quick health check of the stack
