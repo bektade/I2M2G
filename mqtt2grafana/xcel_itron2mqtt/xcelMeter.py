@@ -132,7 +132,7 @@ class xcelMeter():
 
         Returns: dict, {<element name>: <meter response>}
         """
-        logging.info(f"L123 xcelMeter()  => get_hardware_details() =>Build query url {self.url}{hw_info_url}\n")
+        logging.info(f"L135 xcelMeter()  => get_hardware_details() =>Build query url {self.url}{hw_info_url}\n")
         query_url = f'{self.url}{hw_info_url}'
         # query the hw specs endpoint
         x = self.requests_session.get(query_url, verify=False, timeout=10.0)
@@ -157,7 +157,7 @@ class xcelMeter():
         # Mount our adapter to all HTTPS connections
         session.mount('https://', CCM8Adapter())
 
-        logging.info(f"L148 xcelMeter() => setup_session() => Created a new requests session for {ip_address} with certs {creds}\n")
+        logging.info(f"L160 xcelMeter() => setup_session() => Created a new requests session for {ip_address} with certs {creds}\n")
 
         return session
 
@@ -209,7 +209,7 @@ class xcelMeter():
         """
         def on_connect(client, userdata, flags, rc):
             if rc == 0:
-                logging.info("L200 xcelMeter() => setup_mqtt(): => Connected to MQTT Broker! ...\n")
+                logging.info("L212 xcelMeter() => setup_mqtt(): => Connected to MQTT Broker! ...\n")
             else:
                 logging.error("Failed to connect, return code %d\n", rc)
 
@@ -259,7 +259,7 @@ class xcelMeter():
             }
         config_dict.update(self.device_info)
         config_json = json.dumps(config_dict)
-        logging.info(f"L250 XcelMeter() => Publishing device config to topic: {state_topic} with payload: {config_json}\n")
+        logging.info(f"L262 XcelMeter() => Publishing device config to topic: {state_topic} with payload: {config_json}\n")
 
 
         # mqtt client just takes topic and payload and then publishes to the MQTT server!!!
