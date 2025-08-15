@@ -17,7 +17,8 @@ from xcelEndpoint import xcelEndpoint
 
 IEEE_PREFIX = '{urn:ieee:std:2030.5:ns}'
 # Our target cipher is: ECDHE-ECDSA-AES128-CCM8
-CIPHERS = ('ECDHE')
+# Using more permissive cipher suite to handle SSL handshake issues
+CIPHERS = ('ECDHE:ECDH:AESGCM:AES256:AES128')
 
 logger = logging.getLogger(__name__)
 
@@ -37,11 +38,22 @@ class CCM8Adapter(HTTPAdapter):
         return super(CCM8Adapter, self).proxy_manager_for(*args, **kwargs)
 
     def create_ssl_context(self):
-        ssl_version=ssl.PROTOCOL_TLSv1_2
-        context = create_urllib3_context(ssl_version=ssl_version)
+        # Try TLS 1.2 first, fall back to TLS 1.1 if needed
+        try:
+            ssl_version = ssl.PROTOCOL_TLSv1_2
+            context = create_urllib3_context(ssl_version=ssl_version)
+        except:
+            ssl_version = ssl.PROTOCOL_TLSv1_1
+            context = create_urllib3_context(ssl_version=ssl_version)
+
         context.check_hostname = False
-        context.verify_mode = ssl.CERT_REQUIRED
-        context.set_ciphers(CIPHERS)
+        context.verify_mode = ssl.CERT_NONE
+        # Use more permissive cipher suite
+        try:
+            context.set_ciphers(CIPHERS)
+        except:
+            # If cipher setting fails, use default ciphers
+            pass
         return context
 
 class xcelMeter():
@@ -49,7 +61,7 @@ class xcelMeter():
     def __init__(self, name: str, ip_address: str, port: int, creds: Tuple[str, str]):
         self.name = name
         self.POLLING_RATE = 5.0
-        self.ip_address = "10.28.10.181"
+        self.ip_address = ip_address
         # Base URL used to query the meter
         self.url = f'https://{ip_address}:{port}'
 
@@ -123,7 +135,7 @@ class xcelMeter():
         logging.info(f"L123 xcelMeter()  => get_hardware_details() =>Build query url {self.url}{hw_info_url}\n")
         query_url = f'{self.url}{hw_info_url}'
         # query the hw specs endpoint
-        x = self.requests_session.get(query_url, verify=False, timeout=4.0)
+        x = self.requests_session.get(query_url, verify=False, timeout=10.0)
         # Parse the response xml looking for the passed in element names
         root = ET.fromstring(x.text)
         hw_info_dict = {}
@@ -142,8 +154,8 @@ class xcelMeter():
         """
         session = requests.Session()
         session.cert = creds
-        # Mount our adapter to the domain
-        session.mount('https://{ip_address}', CCM8Adapter())
+        # Mount our adapter to all HTTPS connections
+        session.mount('https://', CCM8Adapter())
 
         logging.info(f"L148 xcelMeter() => setup_session() => Created a new requests session for {ip_address} with certs {creds}\n")
 
