@@ -16,7 +16,7 @@ endif
 
 # Show help
 help: ## Show this help message
-	@echo "=== I2M2G Real Meter Project Management ==="
+	@echo "=== I2M2G Real Meter Project Help ==="
 	@echo ""
 	@echo "Available commands:"
 	@echo ""
@@ -25,47 +25,61 @@ help: ## Show this help message
 	@echo "Platform detected: $(PLATFORM)"
 	@echo ""
 
+
+GREEN=\033[0;32m
+YELLOW=\033[1;33m
+
+NC=\033[0m # No Color
 # Setup environment and start the stack
 setup: ## Setup environment and start the complete real meter stack
-	@echo "=== Setting up I2M2G Real Meter on $(PLATFORM) ==="
+	@echo "$(YELLOW)=== Setting up Single Itron Meter on $(PLATFORM) ===$(NC)"
 	@chmod +x scripts/setup_env.sh
 	@chmod +x scripts/generate_keys.sh
+	@echo ""
+	@echo "$(YELLOW)=== Setting up environment via setup_env.sh ===$(NC)"
 	@./scripts/setup_env.sh
 	@echo ""
-	@echo "=== Checking SSL Keys ==="
+	@echo "$(YELLOW)=== Checking SSL Keys ===$(NC)"
 	@./scripts/generate_keys.sh -p || echo "No SSL keys found. Run 'make generate-keys' to create them."
 	@echo ""
-	@echo "=== Starting Real Meter Stack ==="
+	@echo "$(YELLOW)=== Starting Services ===$(NC)"
 	@docker compose --profile real_meter up --build -d
-	@echo "Stack started successfully"
+	@echo ""; 
+	@echo "	✅ Services started successfully"
 	@if [ -f ".env" ]; then \
-		HOST_IP=$$(grep SIMULATOR_IP .env | cut -d'=' -f2); \
-		echo "Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
-		echo "InfluxDB: http://$$HOST_IP:8086"; \
+		HOST_IP=$$(grep HOST_IP .env | cut -d'=' -f2); \
+		echo "	🔗 Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
+		echo "	🔗 InfluxDB: http://$$HOST_IP:8086 (admin/adminpassword)"; \
 	else \
-		echo "Grafana: http://localhost:3000 (admin/admin)"; \
-		echo "InfluxDB: http://localhost:8086"; \
+		echo "	🔗 Grafana: http://localhost:3000 (admin/admin)"; \
+		echo "	🔗 InfluxDB: http://localhost:8086 (admin/adminpassword)"; \
 	fi
+	@echo "$(YELLOW)=== 💡TIPS ===$(NC)"
+	@echo "	To setup garafana run => 'make connect-garafana'"
+	@echo "	To see logs run  =>'make logs-meter'"
+	
 
 # Start the stack (assumes .env exists)
 start: ## Start the Docker stack
-	@echo "=== Starting I2M2G Real Meter Stack ==="
+	@echo "$(YELLOW)=== Starting I2M2G Real Meter Stack ===$(NC)"
 	@docker compose --profile real_meter up --build -d
-	@echo "Stack started successfully"
+	@echo "$(YELLOW)=== Starting Services ===$(NC)"
 	@if [ -f ".env" ]; then \
-		HOST_IP=$$(grep SIMULATOR_IP .env | cut -d'=' -f2); \
-		echo "Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
-		echo "InfluxDB: http://$$HOST_IP:8086"; \
-		echo "MQTT: $$HOST_IP:1883"; \
+		HOST_IP=$$(grep HOST_IP .env | cut -d'=' -f2); \
+		echo ""; \
+		echo "	🔗 Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
+		echo "	🔗 InfluxDB: http://$$HOST_IP:8086"; \
+		echo "	 MQTT: $$HOST_IP:1883"; \
 	else \
-		echo "Grafana: http://localhost:3000 (admin/admin)"; \
-		echo "InfluxDB: http://localhost:8086"; \
-		echo "MQTT: localhost:1883"; \
+		echo ""; \
+		echo "	🔗 Grafana: http://localhost:3000 (admin/admin)"; \
+		echo "	🔗 InfluxDB: http://localhost:8086"; \
+		echo "	 MQTT: localhost:1883"; \
 	fi
 
 # Stop and clean up everything
 stop: ## Stop and clean up all containers, networks, volumes, and .env
-	@echo "=== Stopping and cleaning up I2M2G Real Meter ==="
+	@echo "$(YELLOW)=== Stopping and cleaning up I2M2G Real Meter ===$(NC)"
 	@docker compose down -vv
 	@docker kill xcel_itron2mqtt_I2M2G 2>/dev/null || true
 	@docker network prune -f
@@ -80,25 +94,27 @@ stop: ## Stop and clean up all containers, networks, volumes, and .env
 
 # Pause services (stop containers but keep data)
 pause: ## Pause services - stop containers but preserve all data
-	@echo "=== Pausing I2M2G Real Meter Services ==="
+	@echo "$(YELLOW)=== Pausing I2M2G Real Meter Services ===${NC}"
 	@docker compose down
 	@echo "Services paused. Data is preserved."
 	@echo "Run 'make resume' to restart services."
 
 # Resume services (start containers with existing data)
 resume: ## Resume services - start containers with existing data
-	@echo "=== Resuming I2M2G Real Meter Services ==="
+	@echo "$(YELLOW)=== Resuming I2M2G Real Meter Services ===$(NC)"
 	@docker compose --profile real_meter up -d
 	@echo "Services resumed successfully"
 	@if [ -f ".env" ]; then \
 		HOST_IP=$$(grep METER_IP .env | cut -d'=' -f2); \
-		echo "Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
-		echo "InfluxDB: http://$$HOST_IP:8086"; \
-		echo "MQTT: $$HOST_IP:1883"; \
+		echo ""; \
+		echo "	🔗 Grafana: http://$$HOST_IP:3000 (admin/admin)"; \
+		echo "	🔗 InfluxDB: http://$$HOST_IP:8086"; \
+		echo "	 MQTT: $$HOST_IP:1883"; \
 	else \
-		echo "Grafana: http://localhost:3000 (admin/admin)"; \
-		echo "InfluxDB: http://localhost:8086"; \
-		echo "MQTT: localhost:1883"; \
+		echo ""; \
+		echo "	🔗 Grafana: http://localhost:3000 (admin/admin)"; \
+		echo "	🔗 InfluxDB: http://localhost:8086"; \
+		echo "	MQTT: localhost:1883"; \
 	fi
 
 # Restart the stack (stop + start)
@@ -106,12 +122,12 @@ restart: stop start ## Restart the complete stack
 
 # Check SSL keys
 check-keys: ## Check if SSL keys exist
-	@echo "=== Checking SSL Keys ==="
+	@echo "$(YELLOW)=== Checking SSL Keys ===${NC}"
 	@./scripts/generate_keys.sh -p || echo "No SSL keys found. Run 'make generate-keys' to create them."
 
 # Generate SSL keys
 generate-keys: ## Generate SSL keys for meter authentication
-	@echo "=== Generating SSL Keys ==="
+	@echo "$(YELLOW)=== Generating SSL Keys ===${NC}"
 	@chmod +x scripts/generate_keys.sh
 	@./scripts/generate_keys.sh
 	@echo "SSL keys generated successfully"
@@ -155,7 +171,7 @@ logs-grafana: ## Show Grafana logs
 
 # Monitor data flow
 monitor: ## Monitor the complete data flow
-	@echo "=== Monitoring Real Meter Data Flow ==="
+	@echo "$(YELLOW)=== Monitoring Real Meter Data Flow ===$(NC)"
 	@echo "Checking container status..."
 	@docker compose ps
 	@echo ""
@@ -173,13 +189,13 @@ monitor: ## Monitor the complete data flow
 
 # Connect InfluxDB to Grafana automatically and create dashboard
 connect-grafana: ## Automatically connect InfluxDB to Grafana and create power usage dashboard
-	@echo "=== Connecting InfluxDB to Grafana ==="
+	@echo "$(YELLOW)=== Connecting InfluxDB to Grafana ===${NC}"
 	@chmod +x scripts/connect-grafana.sh
 	@./scripts/connect-grafana.sh
 
 # Clean up everything (including volumes)
 clean: ## Complete cleanup - removes all containers, networks, volumes, and .env
-	@echo "=== Complete Cleanup ==="
+	@echo "$(YELLOW)=== Complete Cleanup ===${NC}"
 	@echo "This will remove ALL data including InfluxDB data!"
 	@read -p "Are you sure? (y/N): " confirm && [ "$$confirm" = "y" ] || exit 1
 	@docker compose down -v

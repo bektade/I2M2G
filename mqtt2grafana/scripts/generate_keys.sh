@@ -26,7 +26,7 @@ generate_new_keys()
 
 print_LFDI()
 {
-    echo ""
+    echo "  ✅ SSL Cert found : LFDI Key is:"
     # Print out the LFDI string for registration
     openssl x509 -noout -fingerprint -SHA256 -inform pem -in ${CERT_DIR}/${CERT_FILENAME} | sed -e 's/://g' -e 's/SHA256 Fingerprint=//g' | cut -c1-40
 }

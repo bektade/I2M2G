@@ -88,7 +88,7 @@ if __name__ == '__main__':
     creds = look_for_creds()
 
     # METER CONFIGURATION
-    ip_address, port_num = "10.28.10.182", 8081
+    # ip_address, port_num = "10.28.10.182", 8081
 
     # create a new xcelMeter instance i.e. initialize with the ip address, port, and credentials
     meter = xcelMeter(INTEGRATION_NAME, ip_address, port_num, creds)

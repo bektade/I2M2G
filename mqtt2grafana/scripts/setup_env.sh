@@ -14,7 +14,7 @@ if [ -f ".env" ]; then
     read -p "Do you want to overwrite it? (y/N): " -n 1 -r
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        echo "❌ Setup cancelled. Your existing .env file is preserved."
+        echo "  ❌ Setup cancelled. Your existing .env file is preserved."
         exit 1
     fi
 fi
@@ -22,15 +22,12 @@ fi
 # Copy template to .env
 if [ -f "env.template" ]; then
     cp env.template .env
-    echo "✅ Created .env file from template"
+    echo "  ✅ Created .env file from template"
 else
-    echo "❌ Error: env.template not found!"
+    echo "  ❌ Error: env.template not found!"
     exit 1
 fi
 
-echo ""
-echo "🔧 ENVIRONMENT VARIABLES SETUP"
-echo "==============================="
 
 
 # Function to prompt for secure input
@@ -70,29 +67,28 @@ if [ -z "$HOST_IP" ]; then
     exit 1
 fi
 
-# Update SIMULATOR_IP in .env file
+# Update HOST_IP in .env file
 if [ -f .env ]; then
-    if grep -q "^SIMULATOR_IP=" .env; then
-        sed -i.bak "s/^SIMULATOR_IP=.*/SIMULATOR_IP=$HOST_IP/" .env
+    if grep -q "^HOST_IP=" .env; then
+        sed -i.bak "s/^HOST_IP=.*/HOST_IP=$HOST_IP/" .env
     else
-        echo "SIMULATOR_IP=$HOST_IP" >> .env
+        echo "HOST_IP=$HOST_IP" >> .env
     fi
     rm -f .env.bak
 else
-    echo "SIMULATOR_IP=$HOST_IP" > .env
+    echo "HOST_IP=$HOST_IP" > .env
 fi
-echo "✅ SIMULATOR_IP updated in .env file: $HOST_IP"
+echo "  ✅ HOST_IP updated in .env file: $HOST_IP"
 
 
 
 
 
 # Generate a secure token for InfluxDB
-echo "🔑 Generating secure InfluxDB admin token..."
 INFLUXDB_TOKEN=$(openssl rand -hex 32)
 sed -i.bak "s/^INFLUXDB_INIT_ADMIN_TOKEN=.*/INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}/" .env
 rm -f .env.bak
-echo "   ✅ Generated secure token: ${INFLUXDB_TOKEN}"
+echo "  ✅ Generated secure token: ${INFLUXDB_TOKEN}"
 
 
 
@@ -102,8 +98,4 @@ echo "   ✅ Generated secure token: ${INFLUXDB_TOKEN}"
 # echo "----------------------------"
 
 # prompt_secure "LOGLEVEL" "DEBUG" "Logging level (DEBUG, INFO, WARNING, ERROR)"
-
-echo ""
-echo "✅ .env SETUP COMPLETE!"
-echo "CUSOMIZE YOUR SETTINGS AS NEEDED in .env file"
-echo "=============================="
+echo "  ✅ .env SETUP COMPLETE!"
