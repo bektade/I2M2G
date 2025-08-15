@@ -18,7 +18,7 @@ endif
 
 # Show help
 help: ## Show this help message
-	@echo "=== Help Menu for Meter Simulator : ==="
+	@echo "$(YELLOW)=== Help Menu for Meter Simulator : ===$(NC)"
 	@echo ""
 	@echo "Available commands:"
 	@echo ""
@@ -42,26 +42,27 @@ setup: ## Setup environment and start the complete stack
 
 
 log: ## Show  meter service logs
+	@echo "$(YELLOW)=== Stopping and cleaning up I2M2G ===$(NC)"
 	@docker logs -f meter2mqtt
 
 
 
 # Stop and clean up everything
 stop: ## Stop and clean up all containers, networks, volumes, and .env
-	@echo "=== Stopping and cleaning up I2M2G ==="
+	@echo "$(YELLOW)=== Stopping and cleaning up I2M2G ===$(NC)"
 	@chmod +x stop.sh
 	@./stop.sh
 
 # Pause services (stop containers but keep data)
 pause: ## Pause services - stop containers but preserve all data
-	@echo "=== Pausing I2M2G Services ==="
+	@echo "$(YELLOW)=== Pausing I2M2G Services ===$(NC)"
 	@docker compose down
 	@echo "Services paused. Data is preserved."
 	@echo "Run 'make resume' to restart services."
 
 # Resume services (start containers with existing data)
 resume: ## Resume services - start containers with existing data
-	@echo "=== Resuming I2M2G Services ==="
+	@echo "$(YELLOW)=== Resuming I2M2G Services ===$(NC)"
 	@docker compose up -d
 	@echo "Services resumed successfully"
 	@if [ -f ".env" ]; then \
@@ -80,44 +81,44 @@ restart: stop start ## Restart the complete stack
 
 # Show status of containers
 status: ## Show status of all containers
-	@echo "=== Container Status ==="
+	@echo "$(YELLOW)=== Container Status ===$(NC)"
 	@docker compose ps
 	@echo ""
-	@echo "=== Volume Status ==="
+	@echo "=== Volume ==="
 	@docker volume ls
 	@echo ""
-	@echo "=== Network Status ==="
+	@echo "=== Network ==="
 	@docker network ls | grep i2m2g
 
 # Show logs for all services
 logs: ## Show logs for all services
-	@echo "=== All Services Logs ==="
+	@echo "$(YELLOW)=== All Services Logs ===$(NC)"
 	@docker compose logs -f
 
 # Show logs for specific services
 logs-mqtt: ## Show MQTT broker logs
-	@echo "=== MQTT Broker Logs ==="
+	@echo "$(YELLOW)=== MQTT Broker Logs ===$(NC)"
 	@docker logs -f mosquitto
 
 logs-meter: ## Show meter2mqtt service logs
-	@echo "=== Meter2MQTT Service Logs ==="
+	@echo "$(YELLOW)=== Meter2MQTT Service Logs ===$(NC)"
 	@docker logs -f meter2mqtt
 
 logs-influx: ## Show InfluxDB logs
-	@echo "=== InfluxDB Logs ==="
+	@echo "$(YELLOW)=== InfluxDB Logs ===$(NC)"
 	@docker logs -f influxdb
 
 logs-telegraf: ## Show Telegraf logs
-	@echo "=== Telegraf Logs ==="
+	@echo "$(YELLOW)=== Telegraf Logs ===$(NC)"
 	@docker logs -f telegraf
 
 logs-grafana: ## Show Grafana logs
-	@echo "=== Grafana Logs ==="
+	@echo "$(YELLOW)=== Grafana Logs ===$(NC)"
 	@docker logs -f grafana
 
 # Monitor data flow
 monitor: ## Monitor the complete data flow
-	@echo "=== Monitoring Data Flow ==="
+	@echo "$(YELLOW)=== Monitoring Data Flow ===$(NC)"
 	@echo "Checking container status..."
 	@docker compose ps
 	@echo ""
@@ -132,13 +133,13 @@ monitor: ## Monitor the complete data flow
 
 # Connect InfluxDB to Grafana automatically and create dashboard
 connect-grafana: ## Automatically connect InfluxDB to Grafana and create power usage dashboard
-	@echo "=== Connecting InfluxDB to Grafana ==="
+	@echo "$(YELLOW)=== Connecting InfluxDB to Grafana ===$(NC)"
 	@chmod +x scripts/connect-grafana.sh
 	@./scripts/connect-grafana.sh
 
 # Clean up everything (including volumes)
 clean: ## Complete cleanup - removes all containers, networks, volumes, and .env
-	@echo "=== Complete Cleanup ==="
+	@echo "$(YELLOW)=== Complete Cleanup ===$(NC)"
 	@echo "This will remove ALL data including InfluxDB data!"
 	@read -p "Are you sure? (y/N): " confirm && [ "$$confirm" = "y" ] || exit 1
 	@docker compose down -v
@@ -151,12 +152,12 @@ clean: ## Complete cleanup - removes all containers, networks, volumes, and .env
 
 # Quick status check
 check: ## Quick health check of the stack
-	@echo "=== Quick Health Check ==="
+	@echo "$(YELLOW)=== Quick Health Check ===$(NC)"
 	@docker compose ps --format "table {{.Name}}\t{{.Status}}\t{{.Ports}}" | grep -E "(mosquitto|meter2mqtt|influxdb|telegraf|grafana)" || echo "No containers found"
 
 # Show environment info
 env-info: ## Show current environment configuration
-	@echo "=== Environment Information ==="
+	@echo "$(YELLOW)=== Environment Information ===$(NC)"
 	@if [ -f ".env" ]; then \
 		echo ".env file exists"; \
 		echo "Environment variables:"; \
@@ -167,17 +168,6 @@ env-info: ## Show current environment configuration
 
 # Build images without starting
 build: ## Build Docker images without starting containers
-	@echo "=== Building Docker Images ==="
+	@echo "$(YELLOW)=== Building Docker Images ===$(NC)"
 	@docker compose build
 
-# Show recent logs for troubleshooting
-troubleshoot: ## Show recent logs for troubleshooting
-	@echo "=== Troubleshooting Information ==="
-	@echo "Recent meter2mqtt logs:"
-	@docker logs --tail 10 meter2mqtt 2>/dev/null || echo "meter2mqtt container not found"
-	@echo ""
-	@echo "Recent telegraf logs:"
-	@docker logs --tail 10 telegraf 2>/dev/null || echo "telegraf container not found"
-	@echo ""
-	@echo "Recent influxdb logs:"
-	@docker logs --tail 10 influxdb 2>/dev/null || echo "influxdb container not found" 

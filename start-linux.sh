@@ -46,7 +46,6 @@ echo ""
 docker compose up --build -d
 echo ""
 echo "✅ Services started successfully"
-sleep 5
 
 echo ""
 echo -e "${YELLOW}===Service Endpoints===${NC}"
@@ -58,6 +57,7 @@ echo ""
 echo ""
 echo -e "${YELLOW}=== 💡💡💡Tips💡💡💡 ===${NC}"
 echo ""
+echo "  run  'make connect-grafana' to setup garfana dashbaord"
 echo "  run  'make log' to see logs from meter simulator"
 echo "  run  'make clean' to clean up everything"
 echo "  run  'make help' for more tips"
