@@ -90,9 +90,6 @@ make help
 
 **Note:** When services are paused, Grafana will show zero values for the time period when no data was being collected.
 
-## <!-- ---
-
---- -->
 
 <!-- ### 📋 Manual Workflow (Legacy)
 
