@@ -257,7 +257,7 @@ if echo "$dashboard_response" | grep -q '"id"'; then
     echo ""
     echo "You can now access:"
     if [ -f ".env" ]; then
-        HOST_IP=$(grep SIMULATOR_IP .env | cut -d'=' -f2)
+        HOST_IP=$(grep HOST_IP .env | cut -d'=' -f2)
         echo "  - Grafana: http://$HOST_IP:3000 (admin/admin)"
         echo "  - Dashboard: http://$HOST_IP:3000$dashboard_url"
     else
