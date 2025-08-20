@@ -16,6 +16,9 @@ This branch supports integrating data from a single Itron smart meter. The confi
 #### Grafana Dashboard
 
 <img src="mqtt2grafana/docs/img/1m.png" alt="" width="100%"/>
+<img src="mqtt2grafana/docs/img2/g1.png" alt="" width="100%"/>
+<img src="mqtt2grafana/docs/img2/g3.png" alt="" width="100%"/>
+<img src="mqtt2grafana/docs/img2/g2.png" alt="" width="100%"/>
 
 #### InfluxDB
 
