@@ -17,6 +17,13 @@ This branch connects to a smart meter simulator agent running in Energy Launchpa
 
   <img src="meter2mqtt/docs/img/Grafana.png" alt="" width="100%"/>
 
+
+<img src="mqtt2grafana/docs/img2/g1.png" alt="" width="100%"/>
+<img src="mqtt2grafana/docs/img2/g3.png" alt="" width="100%"/>
+<img src="mqtt2grafana/docs/img2/g2.png" alt="" width="100%"/>
+
+
+
 ## Quick Start
 
 **Step 1: Clone Required Repositories**
