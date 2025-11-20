@@ -10,7 +10,7 @@
 
 </div>
 
-# Automated Real-Time Itron Smart Meter Monitoring
+# Grafana Real-time Dashboad :  Itron Smart Energy Meter Monitoring (Fully Automated)
 
 This repository provides a fully automated, containerized solution for real-time monitoring of Xcel Energy Itron smart meters using **MQTT**, **InfluxDB**, and **Grafana**.
 
